@@ -1,0 +1,11 @@
+{
+  "name": "tweexel-editor",
+  "version": "0.1.0",
+  "main": "index.html",
+  "keywords": [],
+  "author": "Emanuel Kluge <kraemerseele@gmx.de>",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^2.0.2"
+  }
+}

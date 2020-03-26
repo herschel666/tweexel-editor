@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/0.6.0/modern-normalize.min.css"
+      integrity="sha256-a9JO7L1jGkja9va1xGMWEJspCfU/b9Vn5u/O5MdnKhw="
+      crossorigin="anonymous"
+    />
+    <title>tweexel editor</title>
+    <style>
+      body {
+        color: #31373d;
+        background: white;
+      }
+
+      .space-between {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .main {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 520px;
+        min-height: 100vh;
+        padding: 24px 12px;
+        margin: 0 auto;
+      }
+
+      .title {
+        display: flex;
+        justify-content: center;
+      }
+      .title__text {
+        font-size: 32px;
+        text-align: center;
+        letter-spacing: 3px;
+        word-spacing: 6px;
+      }
+      .title__text::before,
+      .title__text::after {
+        opacity: 0.7;
+      }
+      .title__text::before {
+        content: '∙ ';
+      }
+      .title__text::after {
+        content: ' ∙';
+      }
+
+      .app {
+        flex-grow: 1;
+        display: flex;
+      }
+      .app__inner {
+        width: 100%;
+      }
+
+      .welcome {
+        margin: 24px 0;
+        padding: 16px;
+      }
+      .welcome__content {
+        border-top: 2px solid darkgrey;
+        padding: 24px 0;
+      }
+      .welcome__content > p {
+        margin-top: 0;
+      }
+      .welcome__content > p + p {
+        margin-bottom: 0;
+      }
+      .welcome__content--center {
+        display: flex;
+        justify-content: center;
+      }
+
+      .palette {
+        border-top: 2px solid darkgrey;
+        padding-top: 24px;
+      }
+      .palette__inner {
+        border: none;
+        padding: 0;
+        margin: 0;
+      }
+      .palette__caption {
+        display: block;
+        margin-bottom: 8px;
+      }
+      .palette__colors {
+        padding: 4px 0;
+      }
+
+      .tile {
+        width: 6%;
+        height: 0;
+        padding-top: 6%;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid white;
+        border-radius: 2px;
+      }
+      .tile--active {
+        box-shadow: 0 -1px 2px #31373d, 1px 0 2px #31373d, 0 1px 2px #31373d,
+          -1px 0 2px #31373d;
+      }
+      .tile__input {
+        opacity: 0;
+      }
+
+      .canvas {
+        display: flex;
+      }
+      .canvas__inner {
+        margin: 8px auto;
+        display: grid;
+        grid-gap: 8px;
+        grid-auto-flow: row;
+      }
+
+      @media screen and (min-width: 500px) {
+        .title__text {
+          letter-spacing: 6px;
+          word-spacing: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <div class="title">
+        <h1 class="title__text">tweexel editor</h1>
+      </div>
+      <div class="app">
+        <div id="app" class="app__inner"></div>
+      </div>
+      <footer>
+        &copy; 2020 &middot;
+        <a
+          href="https://twitter.com/Herschel_R"
+          target="_blank"
+          rel="noreferrer noopener"
+          >Emanuel Kluge</a
+        >
+      </footer>
+    </div>
+
+    <script type="module">
+      import * as ClipBoard from 'https://unpkg.com/clipboard-polyfill?module';
+      import {
+        h,
+        Component,
+        Fragment,
+        render,
+      } from 'https://unpkg.com/preact?module';
+      import htm from 'https://unpkg.com/htm?module';
+
+      const STORAGE_KEY = 'tweexel';
+      const STORAGE_KEY_SIZE = `${STORAGE_KEY}:size`;
+      const STORAGE_KEY_PIXELS = `${STORAGE_KEY}:pixels`;
+      const STORAGE_KEY_COLOR = `${STORAGE_KEY}:color`;
+
+      const html = htm.bind(h);
+
+      const colors = {
+        red: '#dd2e44',
+        blue: '#55acee',
+        green: '#78b159',
+        brown: '#c1694f',
+        orange: '#ffac33',
+        yellow: '#fdcb58',
+        violet: '#aa8ed6',
+        grey: '#e6e7e8',
+        black: '#31373d',
+      };
+      const emojis = {
+        red: '🟥',
+        blue: '🟦',
+        green: '🟩',
+        brown: '🟫',
+        orange: '🟧',
+        yellow: '🟨',
+        violet: '🟪',
+        grey: '⬜️',
+        black: '⬛️',
+      };
+      const canvasSizes = [
+        [16, 8],
+        [8, 16],
+        [12, 9],
+        [9, 12],
+        [12, 12],
+        [10, 10],
+        [8, 8],
+        [5, 5],
+      ];
+
+      const getHexValueFromColorName = (colorName) => {
+        if (colors[colorName]) {
+          return colors[colorName];
+        }
+        throw new Error(`${colorName} is not a valid color name.`);
+      };
+
+      const getEmojiFromColorName = (colorName) => {
+        if (emojis[colorName]) {
+          return emojis[colorName];
+        }
+        throw new Error(
+          `There is no emoji referenced by the given color name ${colorName}.`
+        );
+      };
+
+      const preventDefault = (evnt) => evnt.preventDefault();
+
+      const getCanvasGridStyles = (columns, rows) => ({
+        gridTemplateColumns: `repeat(${columns}, 18px)`,
+        gridTemplateRows: `repeat(${rows}, 18px)`,
+      });
+
+      const InitialScreen = ({ children }) => html`
+        <div class="welcome">
+          <div class="welcome__content">
+            <p>Welcome to the <strong>tweexel editor</strong>!</p>
+            <p>
+              Choose a canvas size, draw a neat little pixel image, copy the
+              result as a string of emojis and then head over to ${' '}<a
+                href="https://twitter.com/"
+                target="_blank"
+                rel="noreferrer noopener"
+                >twitter.com</a
+              >${' '} and tweet your artwork.
+            </p>
+          </div>
+          <div class="welcome__content welcome__content--center">
+            ${children}
+          </div>
+        </div>
+      `;
+
+      const Color = ({ color, hex, checked }) => html`
+        <label
+          class=${`tile${checked ? ' tile--active' : ''}`}
+          style=${{ backgroundColor: hex }}
+          for=${color}
+        >
+          <input
+            type="radio"
+            name="color"
+            id=${color}
+            value=${color}
+            checked=${checked}
+            class="tile__input"
+          />
+        </label>
+      `;
+
+      const Palette = ({ currentColor, onChange }) => html`
+        <form
+          onChange=${onChange}
+          method="post"
+          onSubmit=${preventDefault}
+          class="palette"
+        >
+          <fieldset class="palette__inner">
+            <legend class="palette__caption">Color Palette</legend>
+            <div class="palette__colors space-between">
+              ${Object.entries(colors).map(
+                ([color, hex]) => html`
+                  <${Color}
+                    color=${color}
+                    hex=${hex}
+                    checked=${currentColor === color}
+                    key=${color}
+                  />
+                `
+              )}
+            </div>
+          </fieldset>
+        </form>
+      `;
+
+      const Pixel = ({ color }) => html`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+          <path
+            fill=${color}
+            d="M36 32c0 2.209-1.791 4-4 4H4c-2.209 0-4-1.791-4-4V4c0-2.209 1.791-4 4-4h28c2.209 0 4 1.791 4 4v28z"
+          />
+        </svg>
+      `;
+
+      const Canvas = ({ pixels, onClick, columns, rows }) => html`
+        <div class="canvas">
+          <div
+            class="canvas__inner"
+            style=${getCanvasGridStyles(columns, rows)}
+          >
+            ${pixels.map(
+              (color, i) => html`
+                <span
+                  class="canvas__item"
+                  key=${`item-${i}`}
+                  onClick=${() => onClick(i)}
+                >
+                  <${Pixel} color=${getHexValueFromColorName(color)} />
+                </span>
+              `
+            )}
+          </div>
+        </div>
+      `;
+
+      class CopyButton extends Component {
+        state = {
+          copying: false,
+        };
+
+        constructor(props) {
+          super(props);
+
+          this.addToClipboard = this.addToClipboard.bind(this);
+        }
+
+        addToClipboard() {
+          this.setState({ copying: true });
+          const text = this.props.pixels
+            .map(getEmojiFromColorName)
+            .reduce((txt, emoji, index) => {
+              const suffix =
+                (index + 1) % this.props.columns === 0 ? '\r\n' : '';
+              return `${txt}${emoji}${suffix}`;
+            }, '');
+
+          ClipBoard.writeText(text).then(
+            () => {
+              this.setState({ copying: false });
+            },
+            (err) => {
+              console.error(err);
+              this.setState({ copying: false });
+            }
+          );
+        }
+
+        render(_, { copying }) {
+          return html`
+            <button onClick=${this.addToClipboard} disabled=${copying}>
+              Copy artwork
+            </button>
+          `;
+        }
+      }
+
+      class App extends Component {
+        state = {
+          size: null,
+          currentColor: 'red',
+          pixels: [],
+        };
+
+        constructor() {
+          super();
+
+          this.setSize = this.setSize.bind(this);
+          this.resetSize = this.resetSize.bind(this);
+          this.setCurrentColor = this.setCurrentColor.bind(this);
+          this.setPixelColor = this.setPixelColor.bind(this);
+          this.resetCanvas = this.resetCanvas.bind(this);
+        }
+
+        componentDidMount() {
+          const {
+            [STORAGE_KEY_SIZE]: sizeString = null,
+            [STORAGE_KEY_COLOR]: currentColor = 'red',
+          } = localStorage;
+          const size = JSON.parse(sizeString);
+          const pixelsFallback = Array.isArray(size)
+            ? JSON.stringify(this.getInitialCanvas(...size))
+            : '[]';
+          const {
+            [STORAGE_KEY_PIXELS]: pixels = pixelsFallback,
+          } = localStorage;
+          this.setState({
+            pixels: JSON.parse(pixels),
+            currentColor,
+            size,
+          });
+        }
+
+        getInitialCanvas(x, y) {
+          return Array.from({ length: x * y }, () => 'grey');
+        }
+
+        setSize(evnt) {
+          const size = JSON.parse(evnt.target.value);
+
+          this.setState(
+            {
+              size: size,
+              pixels: this.getInitialCanvas(...size),
+            },
+            () => localStorage.setItem(STORAGE_KEY_SIZE, evnt.target.value)
+          );
+        }
+
+        resetSize() {
+          this.setState({ size: null }, () => {
+            localStorage.removeItem(STORAGE_KEY_SIZE);
+            localStorage.removeItem(STORAGE_KEY_PIXELS);
+          });
+        }
+
+        setCurrentColor(evnt) {
+          const currentColor = evnt.target.value;
+
+          this.setState({ currentColor }, () =>
+            localStorage.setItem(STORAGE_KEY_COLOR, currentColor)
+          );
+        }
+
+        setPixelColor(index) {
+          let pixels;
+          this.setState(
+            ({ currentColor, pixels: oldPixels }) => {
+              pixels = [
+                ...oldPixels.slice(0, index),
+                currentColor,
+                ...oldPixels.slice(index + 1),
+              ];
+              return { currentColor, pixels };
+            },
+            () =>
+              localStorage.setItem(STORAGE_KEY_PIXELS, JSON.stringify(pixels))
+          );
+        }
+
+        resetCanvas() {
+          this.setSize({
+            target: { value: JSON.stringify(this.state.size) },
+          });
+        }
+
+        render(_, { size, currentColor, pixels }) {
+          if (size) {
+            return html`<${Fragment}>
+            <${Palette} currentColor=${currentColor} onChange=${this.setCurrentColor} />
+            <hr />
+            <${Canvas}
+              pixels=${pixels}
+              onClick=${this.setPixelColor}
+              columns=${size[0]}
+              rows=${size[1]}
+            />
+            <hr />
+            <div class="space-between">
+              <button onClick=${this.resetSize}>Choose new size</button>
+              <${CopyButton} columns=${size[0]} pixels=${pixels} />
+              <button onClick=${this.resetCanvas}>Reset</button>
+            </div>
+          </${Fragment}>`;
+          }
+
+          return html`<${InitialScreen}>
+          <select onChange=${this.setSize}>
+            <option>Select a size…</option>
+            ${canvasSizes.map(
+              ([x, y], _, __, size = JSON.stringify([x, y])) =>
+                html`
+                  <option value=${size}>${x}×${y}</option>
+                `
+            )}
+          </select>
+        </${InitialScreen}>`;
+        }
+      }
+
+      render(
+        html`
+          <${App} />
+        `,
+        document.getElementById('app')
+      );
+    </script>
+  </body>
+</html>
