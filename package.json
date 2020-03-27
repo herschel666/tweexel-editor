@@ -1,11 +1,56 @@
 {
   "name": "tweexel-editor",
-  "version": "0.1.0",
+  "description": "Editor for emoji-based pixel art ong twitter.",
+  "version": "0.1.0-alpha.01",
   "main": "index.html",
   "keywords": [],
   "author": "Emanuel Kluge <kraemerseele@gmx.de>",
   "license": "MIT",
+  "scripts": {
+    "start": "preact watch",
+    "build": "preact build",
+    "lint": "eslint --fix src/**/*.{js,ts,tsx}",
+    "test": "jest",
+    "precommit": "lint-staged",
+    "deploy": "npm-run-all lint test build"
+  },
+  "lint-staged": {
+    "*.{css,md,scss}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "eslintIgnore": [
+    "build/*"
+  ],
+  "dependencies": {
+    "clipboard-polyfill": "^2.8.6",
+    "preact": "^10.3.1",
+    "preact-render-to-string": "^5.1.4"
+  },
   "devDependencies": {
-    "prettier": "^2.0.2"
+    "@testing-library/preact": "^1.0.2",
+    "@types/jest": "^25.1.2",
+    "@types/webpack-env": "^1.15.1",
+    "@typescript-eslint/eslint-plugin": "^2.19.0",
+    "@typescript-eslint/parser": "^2.19.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
+    "husky": "^4.2.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^25.1.0",
+    "lint-staged": "^10.0.7",
+    "npm-run-all": "^4.1.5",
+    "preact-cli": "^3.0.0-rc.6",
+    "prettier": "^2.0.2",
+    "ts-jest": "^25.2.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5"
   }
 }
