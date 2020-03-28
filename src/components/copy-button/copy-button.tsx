@@ -1,20 +1,27 @@
-import { Component, h } from 'preact';
+import { Component, h, FunctionalComponent } from 'preact';
 import * as ClipBoard from 'clipboard-polyfill';
 
 import { ColorName } from '../../constants';
 import { getEmojiFromColorName } from '../../helpers';
 import { Button } from '../button';
+import { FeedbackConsumer, FeedbackType, SendFeedback } from '../feedback/';
 
-interface Props {
+interface ComponentProps {
   pixels: ColorName[];
   columns: number;
 }
+
+interface ClassProps {
+  sendFeedback: SendFeedback;
+}
+
+type Props = ComponentProps & ClassProps;
 
 interface State {
   readonly copying: boolean;
 }
 
-export class CopyButton extends Component<Props, State> {
+class CopyButtonClass extends Component<Props, State> {
   state = {
     copying: false,
   };
@@ -37,10 +44,12 @@ export class CopyButton extends Component<Props, State> {
     ClipBoard.writeText(`${text}\r\n#tweexel`).then(
       () => {
         this.setState({ copying: false });
+        this.props.sendFeedback('Artwork copied to clipboard.');
       },
       (err) => {
         console.error(err);
         this.setState({ copying: false });
+        this.props.sendFeedback('Copying failed.', FeedbackType.error);
       }
     );
   }
@@ -55,3 +64,11 @@ export class CopyButton extends Component<Props, State> {
     );
   }
 }
+
+export const CopyButton: FunctionalComponent<ComponentProps> = (props) => (
+  <FeedbackConsumer>
+    {(sendFeedback) => (
+      <CopyButtonClass sendFeedback={sendFeedback} {...props} />
+    )}
+  </FeedbackConsumer>
+);
