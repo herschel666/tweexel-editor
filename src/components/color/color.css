@@ -1,0 +1,14 @@
+.color {
+  width: 8%;
+  padding-top: 7.4%;
+}
+
+.color:hover {
+  box-shadow: 0 -1px 0 1px #cbd5e0, 1px 0 0 1px #cbd5e0, 0 1px 0 1px #cbd5e0,
+    -1px 0 0 1px #cbd5e0;
+}
+.colorActive:hover,
+.colorActive {
+  box-shadow: 0 -1px 0 1px #718096, 1px 0 0 1px #718096, 0 1px 0 1px #718096,
+    -1px 0 0 1px #718096;
+}

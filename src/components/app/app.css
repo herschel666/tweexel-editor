@@ -1,0 +1,11 @@
+.titleText::before,
+.titleText::after {
+  color: #cbd5e0;
+  font-size: 50%;
+}
+.titleText::before {
+  content: '■ ';
+}
+.titleText::after {
+  content: ' ■';
+}

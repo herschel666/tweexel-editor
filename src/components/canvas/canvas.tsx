@@ -1,4 +1,5 @@
 import { FunctionalComponent, h } from 'preact';
+import classNames from 'classnames';
 
 import { ColorName } from '../../constants';
 import { getCanvasGridStyles, getHexValueFromColorName } from '../../helpers';
@@ -11,18 +12,33 @@ interface Props {
   rows: number;
 }
 
+const classCanvas = classNames('flex');
+const classCanvasInner = classNames(
+  'grid',
+  'gap-2',
+  'grid-flow-row',
+  'mx-auto',
+  'my-2'
+);
+
+const blur = (evnt: Event) => {
+  if (evnt.currentTarget) {
+    (evnt.currentTarget as HTMLButtonElement).blur();
+  }
+};
+
 export const Canvas: FunctionalComponent<Props> = ({
   pixels,
   onClick,
   columns,
   rows,
 }) => (
-  <div class="canvas">
-    <div class="canvas__inner" style={getCanvasGridStyles(columns, rows)}>
+  <div class={classCanvas}>
+    <div class={classCanvasInner} style={getCanvasGridStyles(columns, rows)}>
       {pixels.map((color, i) => (
-        <span class="canvas__item" key={`item-${i}`} onClick={() => onClick(i)}>
+        <button key={`item-${i}`} onClick={() => onClick(i)} onMouseUp={blur}>
           <Pixel color={getHexValueFromColorName(color)} />
-        </span>
+        </button>
       ))}
     </div>
   </div>
