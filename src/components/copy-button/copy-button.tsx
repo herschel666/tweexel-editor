@@ -34,7 +34,7 @@ export class CopyButton extends Component<Props, State> {
         return `${txt}${emoji}${suffix}`;
       }, '');
 
-    ClipBoard.writeText(text).then(
+    ClipBoard.writeText(`${text}\r\n#tweexel`).then(
       () => {
         this.setState({ copying: false });
       },
