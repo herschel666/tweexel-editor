@@ -28,12 +28,15 @@
     "build/*"
   ],
   "dependencies": {
+    "classnames": "^2.2.6",
     "clipboard-polyfill": "^2.8.6",
     "preact": "^10.3.1",
-    "preact-render-to-string": "^5.1.4"
+    "preact-render-to-string": "^5.1.4",
+    "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
     "@testing-library/preact": "1.0.2",
+    "@types/classnames": "^2.2.10",
     "@types/jest": "25.1.4",
     "@types/webpack-env": "1.15.1",
     "@typescript-eslint/eslint-plugin": "2.25.0",

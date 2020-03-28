@@ -1,6 +1,8 @@
 import { FunctionalComponent, h } from 'preact';
+import classNames from 'classnames';
 
 import { ColorName, Colors } from '../../constants';
+import { color, colorActive } from './color.css';
 
 interface Props {
   color: ColorName;
@@ -8,9 +10,22 @@ interface Props {
   checked: boolean;
 }
 
+const classColor = classNames(
+  color,
+  'box-border',
+  'h-0',
+  'relative',
+  'overflow-hidden',
+  'border',
+  'border-solid',
+  'border-white',
+  'rounded-full',
+  'cursor-pointer'
+);
+
 export const Color: FunctionalComponent<Props> = ({ color, hex, checked }) => (
   <label
-    class={`tile${checked ? ' tile--active' : ''}`}
+    class={classNames(classColor, { [colorActive]: checked })}
     style={{ backgroundColor: hex }}
     htmlFor={color}
   >
@@ -20,7 +35,7 @@ export const Color: FunctionalComponent<Props> = ({ color, hex, checked }) => (
       id={color}
       value={color}
       checked={checked}
-      class="tile__input"
+      class="opacity-0"
     />
   </label>
 );

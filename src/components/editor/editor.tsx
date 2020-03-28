@@ -1,4 +1,5 @@
 import { Component, Fragment, h } from 'preact';
+import classNames from 'classnames';
 
 import {
   STORAGE_KEY_SIZE,
@@ -9,6 +10,7 @@ import {
 } from '../../constants';
 import { Palette } from '../palette';
 import { Canvas } from '../canvas';
+import { Button } from '../button';
 import { CopyButton } from '../copy-button';
 import { InitialScreen } from '../initial-screen';
 
@@ -23,6 +25,10 @@ interface State {
   currentColor: ColorName;
   pixels: ColorName[];
 }
+
+const classsRuler = classNames('my-6');
+const classSelect = classNames('border', 'border-solid', 'border-gray-400');
+const classToolbar = classNames('flex', 'justify-between', 'items-center');
 
 export class Editor extends Component<{}, State> {
   state: State = {
@@ -133,18 +139,18 @@ export class Editor extends Component<{}, State> {
             currentColor={currentColor}
             onChange={this.setCurrentColor}
           />
-          <hr />
+          <hr class={classsRuler} />
           <Canvas
             pixels={pixels}
             onClick={this.setPixelColor}
             columns={size[0]}
             rows={size[1]}
           />
-          <hr />
-          <div class="space-between">
-            <button onClick={this.resetSize}>Choose new size</button>
+          <hr class={classsRuler} />
+          <div class={classToolbar}>
+            <Button onClick={this.resetSize}>Choose new size</Button>
             <CopyButton columns={size[0]} pixels={pixels} />
-            <button onClick={this.resetCanvas}>Reset</button>
+            <Button onClick={this.resetCanvas}>Reset</Button>
           </div>
         </Fragment>
       );
@@ -152,7 +158,7 @@ export class Editor extends Component<{}, State> {
 
     return (
       <InitialScreen>
-        <select onChange={this.setSize}>
+        <select onChange={this.setSize} class={classSelect}>
           <option>Select a size…</option>
           {canvasSizes.map(([x, y], _, __, size = JSON.stringify([x, y])) => (
             <option value={size} key={`${x}×${y}`}>

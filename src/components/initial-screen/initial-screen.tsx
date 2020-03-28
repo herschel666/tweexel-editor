@@ -1,9 +1,24 @@
 import { FunctionalComponent, h } from 'preact';
+import classNames from 'classnames';
+
+const classWelcome = classNames('mx-0', 'my-6');
+const classWelcomeContent = classNames(
+  'border-gray-400',
+  'border-solid',
+  'border-t-2',
+  'px-0',
+  'py-6'
+);
+const classWelcomeContentCenter = classNames(
+  classWelcomeContent,
+  'flex',
+  'justify-center'
+);
 
 export const InitialScreen: FunctionalComponent = ({ children }) => (
-  <div class="welcome">
-    <div class="welcome__content">
-      <p>
+  <div class={classWelcome}>
+    <div class={classWelcomeContent}>
+      <p class="mb-4">
         Welcome to the <strong>tweexel editor</strong>!
       </p>
       <p>
@@ -19,6 +34,6 @@ export const InitialScreen: FunctionalComponent = ({ children }) => (
         and tweet your artwork.
       </p>
     </div>
-    <div class="welcome__content welcome__content--center">{children}</div>
+    <div class={classWelcomeContentCenter}>{children}</div>
   </div>
 );

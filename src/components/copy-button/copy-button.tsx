@@ -3,6 +3,7 @@ import * as ClipBoard from 'clipboard-polyfill';
 
 import { ColorName } from '../../constants';
 import { getEmojiFromColorName } from '../../helpers';
+import { Button } from '../button';
 
 interface Props {
   pixels: ColorName[];
@@ -48,9 +49,9 @@ export class CopyButton extends Component<Props, State> {
     const { copying } = this.state;
 
     return (
-      <button onClick={this.addToClipboard} disabled={copying}>
+      <Button onClick={this.addToClipboard} disabled={copying}>
         Copy artwork
-      </button>
+      </Button>
     );
   }
 }
