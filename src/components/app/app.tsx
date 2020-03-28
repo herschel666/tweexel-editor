@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { Editor } from '../editor/';
 import { TextLink } from '../text-link/';
+import { FeedbackProvider } from '../feedback/';
 import { titleText } from './app.css';
 
 const classMain = classNames(
@@ -33,27 +34,29 @@ const classAppInner = classNames('w-full');
 const classFooter = classNames('text-sm', 'text-center');
 
 export const App: FunctionalComponent = () => (
-  <div class={classMain}>
-    <div class={classTitle}>
-      <h1 class={classTitleText}>tweexel editor</h1>
-    </div>
-    <div class={classApp}>
-      <div class={classAppInner}>
-        <Editor />
+  <FeedbackProvider>
+    <div class={classMain}>
+      <div class={classTitle}>
+        <h1 class={classTitleText}>tweexel editor</h1>
       </div>
+      <div class={classApp}>
+        <div class={classAppInner}>
+          <Editor />
+        </div>
+      </div>
+      <footer class={classFooter}>
+        &copy; {new Date().getFullYear()} &middot;{' '}
+        <TextLink href="https://twitter.com/Herschel_R" blank={true}>
+          Emanuel Kluge
+        </TextLink>{' '}
+        &middot;{' '}
+        <TextLink
+          href="https://github.com/herschel666/tweexel-editor"
+          blank={true}
+        >
+          Source
+        </TextLink>
+      </footer>
     </div>
-    <footer class={classFooter}>
-      &copy; {new Date().getFullYear()} &middot;{' '}
-      <TextLink href="https://twitter.com/Herschel_R" blank={true}>
-        Emanuel Kluge
-      </TextLink>{' '}
-      &middot;{' '}
-      <TextLink
-        href="https://github.com/herschel666/tweexel-editor"
-        blank={true}
-      >
-        Source
-      </TextLink>
-    </footer>
-  </div>
+  </FeedbackProvider>
 );
