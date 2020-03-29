@@ -51,12 +51,12 @@ export class Editor extends Component<{}, State> {
     const {
       [STORAGE_KEY_SIZE]: sizeString = null,
       [STORAGE_KEY_COLOR]: currentColor = 'red',
-    } = localStorage;
+    } = sessionStorage;
     const size = JSON.parse(sizeString) as State['size'];
     const pixelsFallback = Array.isArray(size)
       ? JSON.stringify(this.getInitialCanvas(...size))
       : '[]';
-    const { [STORAGE_KEY_PIXELS]: pixels = pixelsFallback } = localStorage;
+    const { [STORAGE_KEY_PIXELS]: pixels = pixelsFallback } = sessionStorage;
     this.setState({
       pixels: JSON.parse(pixels),
       currentColor,
@@ -81,14 +81,14 @@ export class Editor extends Component<{}, State> {
         size: size,
         pixels: this.getInitialCanvas(...size),
       },
-      () => localStorage.setItem(STORAGE_KEY_SIZE, elem.value)
+      () => sessionStorage.setItem(STORAGE_KEY_SIZE, elem.value)
     );
   }
 
   resetSize() {
     this.setState({ size: null }, () => {
-      localStorage.removeItem(STORAGE_KEY_SIZE);
-      localStorage.removeItem(STORAGE_KEY_PIXELS);
+      sessionStorage.removeItem(STORAGE_KEY_SIZE);
+      sessionStorage.removeItem(STORAGE_KEY_PIXELS);
     });
   }
 
@@ -100,7 +100,7 @@ export class Editor extends Component<{}, State> {
       ((evnt.target as HTMLInputElement).value as ColorName) || 'red';
 
     this.setState({ currentColor }, () =>
-      localStorage.setItem(STORAGE_KEY_COLOR, currentColor)
+      sessionStorage.setItem(STORAGE_KEY_COLOR, currentColor)
     );
   }
 
@@ -115,7 +115,7 @@ export class Editor extends Component<{}, State> {
         ];
         return { currentColor, pixels };
       },
-      () => localStorage.setItem(STORAGE_KEY_PIXELS, JSON.stringify(pixels))
+      () => sessionStorage.setItem(STORAGE_KEY_PIXELS, JSON.stringify(pixels))
     );
   }
 
@@ -124,7 +124,7 @@ export class Editor extends Component<{}, State> {
       const pixels = this.getInitialCanvas(...this.state.size);
 
       this.setState({ pixels }, () =>
-        localStorage.setItem(STORAGE_KEY_PIXELS, JSON.stringify(pixels))
+        sessionStorage.setItem(STORAGE_KEY_PIXELS, JSON.stringify(pixels))
       );
     }
   }
