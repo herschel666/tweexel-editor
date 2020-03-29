@@ -3,3 +3,8 @@
 html {
   font-size: 100%;
 }
+
+body {
+  background-image: url('assets/background.png');
+  background-repeat: repeat;
+}

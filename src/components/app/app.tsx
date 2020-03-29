@@ -20,7 +20,9 @@ const classMain = classNames(
   'font-serif',
   'text-lg',
   'leading-normal',
-  'text-gray-700'
+  'text-gray-700',
+  'bg-white',
+  'shadow'
 );
 const classTitle = classNames('flex', 'justify-center');
 const classTitleText = classNames(
@@ -55,6 +57,11 @@ export const App: FunctionalComponent = () => (
           blank={true}
         >
           Source
+        </TextLink>
+        <br />
+        Background by{' '}
+        <TextLink href="https://www.transparenttextures.com/" blank={true}>
+          Transparent Textures
         </TextLink>
       </footer>
     </div>
