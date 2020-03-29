@@ -1,11 +1,11 @@
-.titleText::before,
-.titleText::after {
+.title::before,
+.title::after {
   color: #cbd5e0;
   font-size: 50%;
 }
-.titleText::before {
+.title::before {
   content: '■ ';
 }
-.titleText::after {
+.title::after {
   content: ' ■';
 }
