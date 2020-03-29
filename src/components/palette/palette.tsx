@@ -10,13 +10,6 @@ interface Props {
   onChange: (evnt: Event) => void;
 }
 
-const classPalette = classNames(
-  'border-gray-400',
-  'border-solid',
-  'border-t-2',
-  'pt-6',
-  'mt-6'
-);
 const classPaletteInner = classNames('p-0', 'm-0', 'border-0');
 const classPaletteCaption = classNames('block', 'mb-2', 'text-base');
 const classPaletteColors = classNames(
@@ -31,12 +24,7 @@ export const Palette: FunctionalComponent<Props> = ({
   currentColor,
   onChange,
 }) => (
-  <form
-    onChange={onChange}
-    method="post"
-    onSubmit={preventDefault}
-    class={classPalette}
-  >
+  <form onChange={onChange} method="post" onSubmit={preventDefault}>
     <fieldset class={classPaletteInner}>
       <legend class={classPaletteCaption}>Color Palette</legend>
       <div class={classPaletteColors}>

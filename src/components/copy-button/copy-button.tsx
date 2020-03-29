@@ -8,7 +8,7 @@ import { FeedbackConsumer, FeedbackType, SendFeedback } from '../feedback/';
 
 interface ComponentProps {
   pixels: ColorName[];
-  columns: number;
+  columns: number | null;
 }
 
 interface ClassProps {
@@ -18,7 +18,7 @@ interface ClassProps {
 type Props = ComponentProps & ClassProps;
 
 interface State {
-  readonly copying: boolean;
+  copying: boolean;
 }
 
 class CopyButtonClass extends Component<Props, State> {
@@ -33,11 +33,16 @@ class CopyButtonClass extends Component<Props, State> {
   }
 
   addToClipboard() {
+    if (this.props.columns === null) {
+      return;
+    }
+
     this.setState({ copying: true });
     const text = this.props.pixels
       .map(getEmojiFromColorName)
       .reduce<string>((txt, emoji, index) => {
-        const suffix = (index + 1) % this.props.columns === 0 ? '\r\n' : '';
+        const suffix =
+          (index + 1) % (this.props.columns as number) === 0 ? '\r\n' : '';
         return `${txt}${emoji}${suffix}`;
       }, '');
 
@@ -55,10 +60,12 @@ class CopyButtonClass extends Component<Props, State> {
   }
 
   render() {
+    const { columns } = this.props;
     const { copying } = this.state;
+    const disabled = copying || columns === null;
 
     return (
-      <Button onClick={this.addToClipboard} disabled={copying}>
+      <Button onClick={this.addToClipboard} disabled={disabled}>
         Copy artwork
       </Button>
     );
