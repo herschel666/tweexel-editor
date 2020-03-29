@@ -1,4 +1,4 @@
-export const STORAGE_KEY = 'tweexel';
+const STORAGE_KEY = 'tweexel';
 export const STORAGE_KEY_SIZE = `${STORAGE_KEY}:size`;
 export const STORAGE_KEY_PIXELS = `${STORAGE_KEY}:pixels`;
 export const STORAGE_KEY_COLOR = `${STORAGE_KEY}:color`;
