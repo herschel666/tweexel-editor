@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Editor } from '../editor/';
 import { TextLink } from '../text-link/';
 import { FeedbackProvider } from '../feedback/';
-import { titleText } from './app.css';
+import { title } from './app.css';
 
 const classMain = classNames(
   'flex',
@@ -24,13 +24,8 @@ const classMain = classNames(
   'bg-white',
   'shadow'
 );
-const classTitle = classNames('flex', 'justify-center');
-const classTitleText = classNames(
-  'text-4xl',
-  'text-center',
-  'tracking-widest',
-  titleText
-);
+const classHeader = classNames('flex', 'flex-col', 'text-center');
+const classTitle = classNames('text-4xl', 'tracking-widest', title);
 const classApp = classNames('flex', 'flex-grow');
 const classAppInner = classNames('w-full');
 const classFooter = classNames('text-sm', 'text-center');
@@ -38,9 +33,10 @@ const classFooter = classNames('text-sm', 'text-center');
 export const App: FunctionalComponent = () => (
   <FeedbackProvider>
     <div class={classMain}>
-      <div class={classTitle}>
-        <h1 class={classTitleText}>tweexel editor</h1>
-      </div>
+      <header class={classHeader}>
+        <h1 class={classTitle}>tweexel</h1>
+        <span>Create tweet-sized, emoji-based Pixel Art.</span>
+      </header>
       <div class={classApp}>
         <div class={classAppInner}>
           <Editor />
