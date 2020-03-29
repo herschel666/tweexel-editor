@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from 'preact';
+import { Component, h } from 'preact';
 import classNames from 'classnames';
 
 import { ColorName } from '../../constants';
@@ -21,25 +21,77 @@ const classCanvasInner = classNames(
   'my-2'
 );
 
-const blur = (evnt: Event) => {
-  if (evnt.currentTarget) {
-    (evnt.currentTarget as HTMLButtonElement).blur();
-  }
-};
+export class Canvas extends Component<Props> {
+  mousedown = false;
+  currentPixel: number | null = null;
 
-export const Canvas: FunctionalComponent<Props> = ({
-  pixels,
-  onClick,
-  columns,
-  rows,
-}) => (
-  <div class={classCanvas}>
-    <div class={classCanvasInner} style={getCanvasGridStyles(columns, rows)}>
-      {pixels.map((color, i) => (
-        <button key={`item-${i}`} onClick={() => onClick(i)} onMouseUp={blur}>
-          <Pixel color={getHexValueFromColorName(color)} />
-        </button>
-      ))}
-    </div>
-  </div>
-);
+  constructor(props: Props) {
+    super(props);
+
+    this.handleCanvasMouseDown = this.handleCanvasMouseDown.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
+    this.handlePixelMouseLeave = this.handlePixelMouseLeave.bind(this);
+    this.handleCanvasMouseLeave = this.handleCanvasMouseLeave.bind(this);
+  }
+
+  handlePixelMouswDown(i: number) {
+    this.props.onClick(i);
+  }
+
+  handleCanvasMouseDown() {
+    this.mousedown = true;
+  }
+
+  handleMouseUp() {
+    this.mousedown = false;
+    this.currentPixel = null;
+
+    if (
+      document.activeElement &&
+      document.activeElement.nodeName.toLowerCase() === 'button'
+    ) {
+      (document.activeElement as HTMLButtonElement).blur();
+    }
+  }
+
+  handleMouseEnter(i: number) {
+    if (!this.mousedown || i === this.currentPixel) {
+      return;
+    }
+    this.currentPixel = i;
+    this.props.onClick(i);
+  }
+
+  handlePixelMouseLeave() {
+    this.currentPixel = null;
+  }
+
+  handleCanvasMouseLeave = this.handleMouseUp;
+
+  render() {
+    const { pixels, columns, rows } = this.props;
+
+    return (
+      <div class={classCanvas}>
+        <div
+          class={classCanvasInner}
+          style={getCanvasGridStyles(columns, rows)}
+          onMouseDown={this.handleCanvasMouseDown}
+          onMouseUp={this.handleMouseUp}
+          onMouseLeave={this.handleCanvasMouseLeave}
+        >
+          {pixels.map((color, i) => (
+            <button
+              key={`item-${i}`}
+              onMouseDown={() => this.handlePixelMouswDown(i)}
+              onMouseEnter={() => this.handleMouseEnter(i)}
+              onMouseLeave={this.handlePixelMouseLeave}
+            >
+              <Pixel color={getHexValueFromColorName(color)} />
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+}
