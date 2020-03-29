@@ -4,14 +4,15 @@ import classNames from 'classnames';
 import { ColorName } from '../../constants';
 import { getCanvasGridStyles, getHexValueFromColorName } from '../../helpers';
 import { Pixel } from '../pixel/';
+import { pulse } from './canvas.css';
 
 interface Props {
   pixels: ColorName[];
+  size: [number, number] | null;
   onClick: (i: number) => void;
-  columns: number;
-  rows: number;
 }
 
+const classPlaceholder = classNames('italic', 'text-center', pulse);
 const classCanvas = classNames('flex');
 const classCanvasInner = classNames(
   'grid',
@@ -69,7 +70,13 @@ export class Canvas extends Component<Props> {
   handleCanvasMouseLeave = this.handleMouseUp;
 
   render() {
-    const { pixels, columns, rows } = this.props;
+    const { pixels, size } = this.props;
+
+    if (size === null) {
+      return <div class={classPlaceholder}>Creating canvas&hellip;</div>;
+    }
+
+    const [columns, rows] = size;
 
     return (
       <div class={classCanvas}>

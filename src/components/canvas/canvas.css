@@ -1,0 +1,13 @@
+.pulse {
+  animation: pulse 0.75s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}

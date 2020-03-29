@@ -5,6 +5,7 @@ import {
   STORAGE_KEY_SIZE,
   STORAGE_KEY_COLOR,
   STORAGE_KEY_PIXELS,
+  Color,
   ColorName,
   canvasSizes,
 } from '../../constants';
@@ -12,7 +13,6 @@ import { Palette } from '../palette';
 import { Canvas } from '../canvas';
 import { Button } from '../button';
 import { CopyButton } from '../copy-button';
-import { InitialScreen } from '../initial-screen';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 if ((module as any).hot) {
@@ -26,9 +26,13 @@ interface State {
   pixels: ColorName[];
 }
 
+const DEFAULT_CANVAS_SIZE: [number, number] = [16, 8];
+
 const classsRuler = classNames('my-6');
 const classSelect = classNames('border', 'border-solid', 'border-gray-400');
 const classToolbar = classNames('flex', 'justify-between', 'items-center');
+
+const changeSizeWarning = `When changing the size of the canvas, you'll lose your current drawing. Proceed anyways?`;
 
 export class Editor extends Component<{}, State> {
   state: State = {
@@ -41,7 +45,6 @@ export class Editor extends Component<{}, State> {
     super();
 
     this.setSize = this.setSize.bind(this);
-    this.resetSize = this.resetSize.bind(this);
     this.setCurrentColor = this.setCurrentColor.bind(this);
     this.setPixelColor = this.setPixelColor.bind(this);
     this.resetCanvas = this.resetCanvas.bind(this);
@@ -52,10 +55,9 @@ export class Editor extends Component<{}, State> {
       [STORAGE_KEY_SIZE]: sizeString = null,
       [STORAGE_KEY_COLOR]: currentColor = 'red',
     } = sessionStorage;
-    const size = JSON.parse(sizeString) as State['size'];
-    const pixelsFallback = Array.isArray(size)
-      ? JSON.stringify(this.getInitialCanvas(...size))
-      : '[]';
+    const maybeSize = JSON.parse(sizeString) as State['size'];
+    const size = Array.isArray(maybeSize) ? maybeSize : DEFAULT_CANVAS_SIZE;
+    const pixelsFallback = JSON.stringify(this.getInitialCanvas(...size));
     const { [STORAGE_KEY_PIXELS]: pixels = pixelsFallback } = sessionStorage;
     this.setState({
       pixels: JSON.parse(pixels),
@@ -73,23 +75,20 @@ export class Editor extends Component<{}, State> {
       return;
     }
 
-    const elem = evnt.target as HTMLInputElement;
-    const size = JSON.parse(elem.value) as [number, number];
+    const elem = evnt.target as HTMLSelectElement;
+    const isWip = this.state.pixels.some((pixel) => pixel !== Color.grey);
 
-    this.setState(
-      {
-        size: size,
-        pixels: this.getInitialCanvas(...size),
-      },
-      () => sessionStorage.setItem(STORAGE_KEY_SIZE, elem.value)
-    );
-  }
+    if (!isWip || confirm(changeSizeWarning)) {
+      const sizeString = elem.value;
+      const size = JSON.parse(sizeString) as [number, number];
+      const pixels = this.getInitialCanvas(...size);
 
-  resetSize() {
-    this.setState({ size: null }, () => {
-      sessionStorage.removeItem(STORAGE_KEY_SIZE);
-      sessionStorage.removeItem(STORAGE_KEY_PIXELS);
-    });
+      this.setState({ pixels, size }, () => {
+        sessionStorage.setItem(STORAGE_KEY_SIZE, sizeString);
+        sessionStorage.setItem(STORAGE_KEY_PIXELS, JSON.stringify(pixels));
+      });
+    }
+    elem.form && elem.form.reset();
   }
 
   setCurrentColor(evnt: Event) {
@@ -131,42 +130,31 @@ export class Editor extends Component<{}, State> {
 
   render() {
     const { size, currentColor, pixels } = this.state;
-
-    if (size) {
-      return (
-        <Fragment>
-          <Palette
-            currentColor={currentColor}
-            onChange={this.setCurrentColor}
-          />
-          <hr class={classsRuler} />
-          <Canvas
-            pixels={pixels}
-            onClick={this.setPixelColor}
-            columns={size[0]}
-            rows={size[1]}
-          />
-          <hr class={classsRuler} />
-          <div class={classToolbar}>
-            <Button onClick={this.resetSize}>Choose new size</Button>
-            <CopyButton columns={size[0]} pixels={pixels} />
-            <Button onClick={this.resetCanvas}>Reset</Button>
-          </div>
-        </Fragment>
-      );
-    }
+    const columns = Array.isArray(size) ? size[0] : null;
 
     return (
-      <InitialScreen>
-        <select onChange={this.setSize} class={classSelect}>
-          <option>Select a size…</option>
-          {canvasSizes.map(([x, y], _, __, size = JSON.stringify([x, y])) => (
-            <option value={size} key={`${x}×${y}`}>
-              {x}×{y}
-            </option>
-          ))}
-        </select>
-      </InitialScreen>
+      <Fragment>
+        <Palette currentColor={currentColor} onChange={this.setCurrentColor} />
+        <hr class={classsRuler} />
+        <Canvas pixels={pixels} onClick={this.setPixelColor} size={size} />
+        <hr class={classsRuler} />
+        <div class={classToolbar}>
+          <CopyButton columns={columns} pixels={pixels} />
+          <Button onClick={this.resetCanvas}>Reset</Button>
+          <form onChange={this.setSize} method="post">
+            <select class={classSelect}>
+              <option>Change size…</option>
+              {canvasSizes.map(
+                ([x, y], _, __, value = JSON.stringify([x, y])) => (
+                  <option value={value} key={`${x}×${y}`}>
+                    {x}×{y}
+                  </option>
+                )
+              )}
+            </select>
+          </form>
+        </div>
+      </Fragment>
     );
   }
 }
