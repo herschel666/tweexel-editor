@@ -1,6 +1,8 @@
 import { FunctionalComponent, h } from 'preact';
 import classNames from 'classnames';
 
+import { TextLink } from '../text-link/';
+
 const classWelcome = classNames('mx-0', 'my-6');
 const classWelcomeContent = classNames(
   'border-gray-400',
@@ -24,13 +26,9 @@ export const InitialScreen: FunctionalComponent = ({ children }) => (
       <p>
         Choose a canvas size, draw a neat little pixel image, copy the result as
         a string of emojis and then head over to{' '}
-        <a
-          href="https://twitter.com/"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
+        <TextLink href="https://twitter.com/" blank={true}>
           twitter.com
-        </a>{' '}
+        </TextLink>{' '}
         and tweet your artwork.
       </p>
     </div>
