@@ -19,4 +19,9 @@ module.exports = {
     '^create-react-class$': 'preact-compat/lib/create-react-class',
     '^react-addons-css-transition-group$': 'preact-css-transition-group',
   },
+  globals: {
+    'ts-jest': {
+      tsConfig: 'tsconfig.test.json',
+    },
+  },
 };
