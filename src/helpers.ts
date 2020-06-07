@@ -1,4 +1,5 @@
-import { colors, emojis, Colors, ColorName, Emojis } from './constants';
+import { colors, emojis } from './constants';
+import type { Colors, ColorName, Emojis } from './constants';
 
 export const getHexValueFromColorName = (
   colorName: ColorName
@@ -20,9 +21,16 @@ export const getEmojiFromColorName = (
   );
 };
 
-export const preventDefault = (evnt: Event) => evnt.preventDefault();
+export const preventDefault = (evnt: Event): void => evnt.preventDefault();
 
-export const getCanvasGridStyles = (columns: number, rows: number) => ({
+interface CanvasGridStyles {
+  [key: string]: string;
+}
+
+export const getCanvasGridStyles = (
+  columns: number,
+  rows: number
+): CanvasGridStyles => ({
   gridTemplateColumns: `repeat(${columns}, 18px)`,
   gridTemplateRows: `repeat(${rows}, 18px)`,
 });

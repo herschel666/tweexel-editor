@@ -1,7 +1,9 @@
-import { FunctionalComponent, h } from 'preact';
+import { h } from 'preact';
+import type { FunctionalComponent } from 'preact';
 import classNames from 'classnames';
 
-import { colors, ColorName } from '../../constants';
+import { colors } from '../../constants';
+import type { ColorName } from '../../constants';
 import { preventDefault } from '../../helpers';
 import { Color } from '../color';
 

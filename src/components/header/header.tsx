@@ -1,4 +1,5 @@
-import { FunctionalComponent, h } from 'preact';
+import { h } from 'preact';
+import type { FunctionalComponent } from 'preact';
 import { Link } from 'preact-router/match';
 import classNames from 'classnames';
 
