@@ -1,7 +1,8 @@
-import { Component, h, FunctionalComponent } from 'preact';
+import { Component, h } from 'preact';
+import type { FunctionalComponent } from 'preact';
 import * as ClipBoard from 'clipboard-polyfill';
 
-import { ColorName } from '../../constants';
+import type { ColorName } from '../../constants';
 import { getEmojiFromColorName } from '../../helpers';
 import { Button } from '../button';
 import { FeedbackConsumer, FeedbackType, SendFeedback } from '../feedback/';

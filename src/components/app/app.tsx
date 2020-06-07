@@ -1,4 +1,5 @@
-import { FunctionalComponent, h } from 'preact';
+import { h } from 'preact';
+import type { FunctionalComponent } from 'preact';
 import Router from 'preact-router';
 import classNames from 'classnames';
 

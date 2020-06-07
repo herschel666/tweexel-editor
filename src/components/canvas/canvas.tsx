@@ -1,7 +1,8 @@
 import { Component, h } from 'preact';
+import type { ComponentChild } from 'preact';
 import classNames from 'classnames';
 
-import { ColorName } from '../../constants';
+import type { ColorName } from '../../constants';
 import { getCanvasGridStyles, getHexValueFromColorName } from '../../helpers';
 import { Pixel } from '../pixel/';
 import { pulse } from './canvas.css';
@@ -35,15 +36,15 @@ export class Canvas extends Component<Props> {
     this.handleCanvasMouseLeave = this.handleCanvasMouseLeave.bind(this);
   }
 
-  handlePixelMouswDown(i: number) {
+  handlePixelMouswDown(i: number): void {
     this.props.onClick(i);
   }
 
-  handleCanvasMouseDown() {
+  handleCanvasMouseDown(): void {
     this.mousedown = true;
   }
 
-  handleMouseUp() {
+  handleMouseUp(): void {
     this.mousedown = false;
     this.currentPixel = null;
 
@@ -55,7 +56,7 @@ export class Canvas extends Component<Props> {
     }
   }
 
-  handleMouseEnter(i: number) {
+  handleMouseEnter(i: number): void {
     if (!this.mousedown || i === this.currentPixel) {
       return;
     }
@@ -63,13 +64,13 @@ export class Canvas extends Component<Props> {
     this.props.onClick(i);
   }
 
-  handlePixelMouseLeave() {
+  handlePixelMouseLeave(): void {
     this.currentPixel = null;
   }
 
   handleCanvasMouseLeave = this.handleMouseUp;
 
-  render() {
+  render(): ComponentChild {
     const { pixels, size } = this.props;
 
     if (size === null) {

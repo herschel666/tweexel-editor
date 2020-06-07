@@ -1,4 +1,5 @@
 import { Component, Fragment, h } from 'preact';
+import type { ComponentChild } from 'preact';
 import classNames from 'classnames';
 
 import {
@@ -6,9 +7,9 @@ import {
   STORAGE_KEY_COLOR,
   STORAGE_KEY_PIXELS,
   Color,
-  ColorName,
   canvasSizes,
 } from '../../constants';
+import type { ColorName } from '../../constants';
 import { Palette } from '../palette';
 import { Canvas } from '../canvas';
 import { Button } from '../button';
@@ -34,7 +35,7 @@ const classToolbar = classNames('flex', 'justify-between', 'items-center');
 
 const changeSizeWarning = `When changing the size of the canvas, you'll lose your current drawing. Proceed anyways?`;
 
-export class Editor extends Component<{}, State> {
+export class Editor extends Component<unknown, State> {
   state: State = {
     size: null,
     currentColor: 'red' as ColorName,
@@ -50,7 +51,7 @@ export class Editor extends Component<{}, State> {
     this.resetCanvas = this.resetCanvas.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const {
       [STORAGE_KEY_SIZE]: sizeString = null,
       [STORAGE_KEY_COLOR]: currentColor = 'red',
@@ -70,7 +71,7 @@ export class Editor extends Component<{}, State> {
     return Array.from({ length: x * y }, () => 'grey');
   }
 
-  setSize(evnt: Event) {
+  setSize(evnt: Event): void {
     if (!evnt.target) {
       return;
     }
@@ -91,7 +92,7 @@ export class Editor extends Component<{}, State> {
     elem.form && elem.form.reset();
   }
 
-  setCurrentColor(evnt: Event) {
+  setCurrentColor(evnt: Event): void {
     if (!evnt.target) {
       return;
     }
@@ -103,7 +104,7 @@ export class Editor extends Component<{}, State> {
     );
   }
 
-  setPixelColor(index: number) {
+  setPixelColor(index: number): void {
     let pixels: ColorName[];
     this.setState(
       ({ currentColor, pixels: oldPixels }) => {
@@ -118,7 +119,7 @@ export class Editor extends Component<{}, State> {
     );
   }
 
-  resetCanvas() {
+  resetCanvas(): void {
     if (this.state.size) {
       const pixels = this.getInitialCanvas(...this.state.size);
 
@@ -128,7 +129,7 @@ export class Editor extends Component<{}, State> {
     }
   }
 
-  render() {
+  render(): ComponentChild {
     const { size, currentColor, pixels } = this.state;
     const columns = Array.isArray(size) ? size[0] : null;
 

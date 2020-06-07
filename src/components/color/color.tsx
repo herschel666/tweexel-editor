@@ -1,7 +1,8 @@
-import { FunctionalComponent, h } from 'preact';
+import { h } from 'preact';
+import type { FunctionalComponent } from 'preact';
 import classNames from 'classnames';
 
-import { ColorName, Colors } from '../../constants';
+import type { ColorName, Colors } from '../../constants';
 import { color, colorActive } from './color.css';
 
 interface Props {

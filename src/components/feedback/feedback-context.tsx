@@ -1,10 +1,5 @@
-import {
-  Component,
-  FunctionalComponent,
-  createContext,
-  h,
-  VNode,
-} from 'preact';
+import { Component, createContext, h } from 'preact';
+import type { FunctionalComponent, VNode, ComponentChild } from 'preact';
 
 import { Feedback, FeedbackType } from './feedback';
 
@@ -16,7 +11,7 @@ interface State {
   type: FeedbackType | null;
 }
 
-export class FeedbackProvider extends Component<{}, State> {
+export class FeedbackProvider extends Component<unknown, State> {
   state = {
     message: null,
     type: null,
@@ -30,7 +25,7 @@ export class FeedbackProvider extends Component<{}, State> {
     this.removeFeedback = this.removeFeedback.bind(this);
   }
 
-  sendFeedback(message: string, type: FeedbackType = FeedbackType.info) {
+  sendFeedback(message: string, type: FeedbackType = FeedbackType.info): void {
     if (this.timeout) {
       clearTimeout(this.timeout);
       this.timeout = null;
@@ -40,7 +35,7 @@ export class FeedbackProvider extends Component<{}, State> {
     });
   }
 
-  removeFeedback() {
+  removeFeedback(): void {
     this.setState({
       message: null,
       type: null,
@@ -48,10 +43,11 @@ export class FeedbackProvider extends Component<{}, State> {
     this.timeout = null;
   }
 
-  render() {
+  render(): ComponentChild {
     const { message, type } = this.state;
     const hasFeedback = message !== null && type !== null;
 
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     return (
       <FeedbackContext.Provider value={this.sendFeedback}>
         {this.props.children}
@@ -64,6 +60,7 @@ export class FeedbackProvider extends Component<{}, State> {
         )}
       </FeedbackContext.Provider>
     );
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
   }
 }
 
