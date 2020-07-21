@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "classnames": "^2.2.6",
-    "clipboard-polyfill": "^2.8.6",
+    "clipboard-polyfill": "^3.0.0",
     "preact": "^10.3.1",
     "preact-render-to-string": "^5.1.4",
     "preact-router": "3.2.1",
