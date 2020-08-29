@@ -21,19 +21,26 @@ if ((module as any).hot) {
   require('preact/debug');
 }
 
+type Size = [number, number];
+
 interface State {
-  size: [number, number] | null;
+  size: Size | null;
   currentColor: ColorName;
   pixels: ColorName[];
 }
 
-const DEFAULT_CANVAS_SIZE: [number, number] = [16, 8];
+const DEFAULT_CANVAS_SIZE: Size = [16, 8];
 
 const classsRuler = classNames('my-6');
 const classSelect = classNames('border', 'border-solid', 'border-gray-400');
 const classToolbar = classNames('flex', 'justify-between', 'items-center');
 
 const changeSizeWarning = `When changing the size of the canvas, you'll lose your current drawing. Proceed anyways?`;
+
+const isSelected = (x: number, y: number, size: Size | null): boolean => {
+  const currentSize = size || DEFAULT_CANVAS_SIZE;
+  return currentSize[0] === x && currentSize[1] === y;
+};
 
 export class Editor extends Component<unknown, State> {
   state: State = {
@@ -81,7 +88,7 @@ export class Editor extends Component<unknown, State> {
 
     if (!isWip || confirm(changeSizeWarning)) {
       const sizeString = elem.value;
-      const size = JSON.parse(sizeString) as [number, number];
+      const size = JSON.parse(sizeString) as Size;
       const pixels = this.getInitialCanvas(...size);
 
       this.setState({ pixels, size }, () => {
@@ -147,7 +154,11 @@ export class Editor extends Component<unknown, State> {
               <option>Change size…</option>
               {canvasSizes.map(
                 ([x, y], _, __, value = JSON.stringify([x, y])) => (
-                  <option value={value} key={`${x}×${y}`}>
+                  <option
+                    value={value}
+                    key={`${x}×${y}`}
+                    selected={isSelected(x, y, size)}
+                  >
                     {x}×{y}
                   </option>
                 )
