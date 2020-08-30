@@ -2,20 +2,27 @@ import { Component, h } from 'preact';
 import type { ComponentChild } from 'preact';
 import classNames from 'classnames';
 
-import type { ColorName } from '../../constants';
+import type { ColorName, Size } from '../../constants';
 import { getHexValueFromColorName } from '../../helpers';
 import { Pixel } from '../pixel/';
-import styles from './canvas.css';
+import './canvas.css';
 
 interface Props {
   pixels: ColorName[];
-  size: [number, number];
+  size: Size;
   onClick: (i: number) => void;
 }
 
 const classCanvas = classNames('flex');
-const getClassCanvasInner = (sizeClass: string): string =>
-  classNames('grid', 'gap-2', 'grid-flow-row', 'mx-auto', 'my-2', sizeClass);
+const getClassCanvasInner = (size: Size): string =>
+  classNames(
+    'grid',
+    'gap-2',
+    'grid-flow-row',
+    'mx-auto',
+    'my-2',
+    `tweexel-size-${size.join('-')}`
+  );
 
 export class Canvas extends Component<Props> {
   mousedown = false;
@@ -66,9 +73,7 @@ export class Canvas extends Component<Props> {
 
   render(): ComponentChild {
     const { pixels, size } = this.props;
-    const classCanvasInner = getClassCanvasInner(
-      styles[`size-${size.join('-')}`]
-    );
+    const classCanvasInner = getClassCanvasInner(size);
 
     return (
       <div class={classCanvas}>
