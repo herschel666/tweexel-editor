@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import { EditorPage } from '../../pages/editor';
 import { RedirectToEditor } from '../../pages/redirect-to-editor';
+import { NotFoundPage } from '../../pages/not-found';
 import { AboutPage } from '../../pages/about';
 import { FeedbackProvider } from '../feedback/';
 import { Header } from '../header';
@@ -39,6 +40,7 @@ export const App: FunctionalComponent = () => (
           <RedirectToEditor path="/" />
           <EditorPage path="/size/:size/" />
           <AboutPage path="/about/" />
+          <NotFoundPage default={true} />
         </Router>
       </div>
       <Footer />
