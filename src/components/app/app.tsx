@@ -4,6 +4,7 @@ import Router from 'preact-router';
 import classNames from 'classnames';
 
 import { EditorPage } from '../../pages/editor';
+import { RedirectToEditor } from '../../pages/redirect-to-editor';
 import { AboutPage } from '../../pages/about';
 import { FeedbackProvider } from '../feedback/';
 import { Header } from '../header';
@@ -35,7 +36,8 @@ export const App: FunctionalComponent = () => (
       <Header />
       <div class={classContent}>
         <Router>
-          <EditorPage path="/" />
+          <RedirectToEditor path="/" />
+          <EditorPage path="/size/:size/" />
           <AboutPage path="/about/" />
         </Router>
       </div>

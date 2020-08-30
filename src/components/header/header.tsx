@@ -32,7 +32,12 @@ export const Header: FunctionalComponent = () => (
     <h1 class={classTitle}>tweexel</h1>
     <span class="text-base">Create tweet-sized, emoji-based Pixel Art.</span>
     <nav class={classNav}>
-      <Link class={classLink} activeClassName={classLinkActive} href="/">
+      <Link
+        class={classLink}
+        activeClassName={classLinkActive}
+        href="/"
+        path="/size/:size/"
+      >
         Editor
       </Link>
       <Link class={classLink} activeClassName={classLinkActive} href="/about/">

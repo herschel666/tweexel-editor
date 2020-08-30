@@ -1,5 +1,6 @@
 import { Component, Fragment, h } from 'preact';
 import type { ComponentChild } from 'preact';
+import { route } from 'preact-router';
 import classNames from 'classnames';
 
 import {
@@ -9,6 +10,7 @@ import {
   Color,
   canvasSizes,
 } from '../../constants';
+import type { Size } from '../../constants';
 import type { ColorName } from '../../constants';
 import { Palette } from '../palette';
 import { Canvas } from '../canvas';
@@ -21,15 +23,14 @@ if ((module as any).hot) {
   require('preact/debug');
 }
 
-type Size = [number, number];
-
 interface State {
-  size: Size | null;
   currentColor: ColorName;
   pixels: ColorName[];
 }
 
-const DEFAULT_CANVAS_SIZE: Size = [16, 8];
+interface Props {
+  size: Size;
+}
 
 const classsRuler = classNames('my-6');
 const classSelect = classNames('border', 'border-solid', 'border-gray-400');
@@ -37,20 +38,17 @@ const classToolbar = classNames('flex', 'justify-between', 'items-center');
 
 const changeSizeWarning = `When changing the size of the canvas, you'll lose your current drawing. Proceed anyways?`;
 
-const isSelected = (x: number, y: number, size: Size | null): boolean => {
-  const currentSize = size || DEFAULT_CANVAS_SIZE;
-  return currentSize[0] === x && currentSize[1] === y;
-};
+const isSelected = (x: number, y: number, [w, h]: Size): boolean =>
+  w === x && h === y;
 
-export class Editor extends Component<unknown, State> {
+export class Editor extends Component<Props, State> {
   state: State = {
-    size: null,
     currentColor: 'red' as ColorName,
     pixels: [],
   };
 
-  constructor() {
-    super();
+  constructor(props: Props) {
+    super(props);
 
     this.setSize = this.setSize.bind(this);
     this.setCurrentColor = this.setCurrentColor.bind(this);
@@ -59,18 +57,14 @@ export class Editor extends Component<unknown, State> {
   }
 
   componentDidMount(): void {
-    const {
-      [STORAGE_KEY_SIZE]: sizeString = null,
-      [STORAGE_KEY_COLOR]: currentColor = 'red',
-    } = sessionStorage;
-    const maybeSize = JSON.parse(sizeString) as State['size'];
-    const size = Array.isArray(maybeSize) ? maybeSize : DEFAULT_CANVAS_SIZE;
-    const pixelsFallback = JSON.stringify(this.getInitialCanvas(...size));
+    const { [STORAGE_KEY_COLOR]: currentColor = 'red' } = sessionStorage;
+    const pixelsFallback = JSON.stringify(
+      this.getInitialCanvas(...this.props.size)
+    );
     const { [STORAGE_KEY_PIXELS]: pixels = pixelsFallback } = sessionStorage;
     this.setState({
       pixels: JSON.parse(pixels),
       currentColor,
-      size,
     });
   }
 
@@ -91,9 +85,10 @@ export class Editor extends Component<unknown, State> {
       const size = JSON.parse(sizeString) as Size;
       const pixels = this.getInitialCanvas(...size);
 
-      this.setState({ pixels, size }, () => {
+      this.setState({ pixels }, () => {
         sessionStorage.setItem(STORAGE_KEY_SIZE, sizeString);
         sessionStorage.setItem(STORAGE_KEY_PIXELS, JSON.stringify(pixels));
+        route(`/size/${size.join('-')}/`, true);
       });
     }
     elem.form && elem.form.reset();
@@ -127,18 +122,17 @@ export class Editor extends Component<unknown, State> {
   }
 
   resetCanvas(): void {
-    if (this.state.size) {
-      const pixels = this.getInitialCanvas(...this.state.size);
+    const pixels = this.getInitialCanvas(...this.props.size);
 
-      this.setState({ pixels }, () =>
-        sessionStorage.setItem(STORAGE_KEY_PIXELS, JSON.stringify(pixels))
-      );
-    }
+    this.setState({ pixels }, () =>
+      sessionStorage.setItem(STORAGE_KEY_PIXELS, JSON.stringify(pixels))
+    );
   }
 
-  render(): ComponentChild {
-    const { size, currentColor, pixels } = this.state;
-    const columns = Array.isArray(size) ? size[0] : null;
+  render(props: Props, state: State): ComponentChild {
+    const { currentColor, pixels } = state;
+    const { size } = props;
+    const [columns] = size;
 
     return (
       <Fragment>

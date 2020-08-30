@@ -1,7 +1,10 @@
+export type Size = [number, number];
+
 const STORAGE_KEY = 'tweexel';
 export const STORAGE_KEY_SIZE = `${STORAGE_KEY}:size`;
 export const STORAGE_KEY_PIXELS = `${STORAGE_KEY}:pixels`;
 export const STORAGE_KEY_COLOR = `${STORAGE_KEY}:color`;
+export const DEFAULT_CANVAS_SIZE: Size = [16, 8];
 
 export enum Color {
   red = 'red',
@@ -41,8 +44,8 @@ export const emojis: Emojis = {
   black: '⬛️',
 };
 
-export const canvasSizes = [
-  [16, 8],
+export const canvasSizes: Size[] = [
+  DEFAULT_CANVAS_SIZE,
   [8, 16],
   [12, 9],
   [9, 12],
