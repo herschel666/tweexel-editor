@@ -9,6 +9,7 @@
   "scripts": {
     "start": "preact watch",
     "build": "preact build",
+    "postbuild": "cp build/404/index.html build/404.html",
     "lint": "eslint --fix src/**/*.{js,ts,tsx}",
     "test": "jest",
     "preserve": "npm run build",
