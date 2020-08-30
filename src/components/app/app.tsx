@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import type { FunctionalComponent } from 'preact';
-import Router from 'preact-router';
+import { Router } from 'preact-router';
 import classNames from 'classnames';
 
 import { EditorPage } from '../../pages/editor';
