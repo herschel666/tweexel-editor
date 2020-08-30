@@ -84,6 +84,7 @@ export class Canvas extends Component<Props> {
               onMouseDown={() => this.handlePixelMouswDown(i)}
               onMouseEnter={() => this.handleMouseEnter(i)}
               onMouseLeave={this.handlePixelMouseLeave}
+              data-testid="tweexel"
             >
               <Pixel color={getHexValueFromColorName(color)} />
             </button>
