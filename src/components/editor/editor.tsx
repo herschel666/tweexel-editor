@@ -41,12 +41,10 @@ const changeSizeWarning = `When changing the size of the canvas, you'll lose you
 const isSelected = (x: number, y: number, [w, h]: Size): boolean =>
   w === x && h === y;
 
-export class Editor extends Component<Props, State> {
-  state: State = {
-    currentColor: 'red' as ColorName,
-    pixels: [],
-  };
+const getInitialCanvas = (x: number, y: number): ColorName[] =>
+  Array.from({ length: x * y }, () => 'grey');
 
+export class Editor extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -54,22 +52,23 @@ export class Editor extends Component<Props, State> {
     this.setCurrentColor = this.setCurrentColor.bind(this);
     this.setPixelColor = this.setPixelColor.bind(this);
     this.resetCanvas = this.resetCanvas.bind(this);
+    this.state = {
+      currentColor: 'red' as ColorName,
+      pixels: getInitialCanvas(...props.size),
+    };
   }
 
   componentDidMount(): void {
+    const amount = this.props.size[0] * this.props.size[1];
     const { [STORAGE_KEY_COLOR]: currentColor = 'red' } = sessionStorage;
-    const pixelsFallback = JSON.stringify(
-      this.getInitialCanvas(...this.props.size)
-    );
-    const { [STORAGE_KEY_PIXELS]: pixels = pixelsFallback } = sessionStorage;
-    this.setState({
-      pixels: JSON.parse(pixels),
-      currentColor,
-    });
-  }
+    const { [STORAGE_KEY_PIXELS]: storedPixelsString = '[]' } = sessionStorage;
+    const storedPixels = JSON.parse(storedPixelsString);
+    const pixels =
+      Array.isArray(storedPixels) && storedPixels.length === amount
+        ? storedPixels
+        : getInitialCanvas(...this.props.size);
 
-  getInitialCanvas(x: number, y: number): ColorName[] {
-    return Array.from({ length: x * y }, () => 'grey');
+    this.setState({ pixels, currentColor });
   }
 
   setSize(evnt: Event): void {
@@ -83,7 +82,7 @@ export class Editor extends Component<Props, State> {
     if (!isWip || confirm(changeSizeWarning)) {
       const sizeString = elem.value;
       const size = JSON.parse(sizeString) as Size;
-      const pixels = this.getInitialCanvas(...size);
+      const pixels = getInitialCanvas(...size);
 
       this.setState({ pixels }, () => {
         sessionStorage.setItem(STORAGE_KEY_SIZE, sizeString);
@@ -122,7 +121,7 @@ export class Editor extends Component<Props, State> {
   }
 
   resetCanvas(): void {
-    const pixels = this.getInitialCanvas(...this.props.size);
+    const pixels = getInitialCanvas(...this.props.size);
 
     this.setState({ pixels }, () =>
       sessionStorage.setItem(STORAGE_KEY_PIXELS, JSON.stringify(pixels))
