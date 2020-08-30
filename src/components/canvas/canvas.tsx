@@ -3,25 +3,19 @@ import type { ComponentChild } from 'preact';
 import classNames from 'classnames';
 
 import type { ColorName } from '../../constants';
-import { getCanvasGridStyles, getHexValueFromColorName } from '../../helpers';
+import { getHexValueFromColorName } from '../../helpers';
 import { Pixel } from '../pixel/';
-import { pulse } from './canvas.css';
+import styles from './canvas.css';
 
 interface Props {
   pixels: ColorName[];
-  size: [number, number] | null;
+  size: [number, number];
   onClick: (i: number) => void;
 }
 
-const classPlaceholder = classNames('italic', 'text-center', pulse);
 const classCanvas = classNames('flex');
-const classCanvasInner = classNames(
-  'grid',
-  'gap-2',
-  'grid-flow-row',
-  'mx-auto',
-  'my-2'
-);
+const getClassCanvasInner = (sizeClass: string): string =>
+  classNames('grid', 'gap-2', 'grid-flow-row', 'mx-auto', 'my-2', sizeClass);
 
 export class Canvas extends Component<Props> {
   mousedown = false;
@@ -72,18 +66,14 @@ export class Canvas extends Component<Props> {
 
   render(): ComponentChild {
     const { pixels, size } = this.props;
-
-    if (size === null) {
-      return <div class={classPlaceholder}>Creating canvas&hellip;</div>;
-    }
-
-    const [columns, rows] = size;
+    const classCanvasInner = getClassCanvasInner(
+      styles[`size-${size.join('-')}`]
+    );
 
     return (
       <div class={classCanvas}>
         <div
           class={classCanvasInner}
-          style={getCanvasGridStyles(columns, rows)}
           onMouseDown={this.handleCanvasMouseDown}
           onMouseUp={this.handleMouseUp}
           onMouseLeave={this.handleCanvasMouseLeave}
