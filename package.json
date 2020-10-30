@@ -33,7 +33,7 @@
   "dependencies": {
     "classnames": "2.2.6",
     "clipboard-polyfill": "2.8.6",
-    "preact": "10.3.1",
+    "preact": "10.5.5",
     "preact-render-to-string": "5.1.4",
     "preact-router": "3.2.1",
     "tailwindcss": "1.9.6"
