@@ -41,7 +41,7 @@
     "clipboard-polyfill": "2.8.6",
     "preact": "10.5.12",
     "preact-async-route": "2.2.1",
-    "preact-render-to-string": "5.1.12",
+    "preact-render-to-string": "5.1.19",
     "preact-router": "3.2.1",
     "tailwindcss": "2.0.2"
   },
