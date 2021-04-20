@@ -6,6 +6,9 @@
   "keywords": [],
   "author": "Emanuel Kluge <kraemerseele@gmx.de>",
   "license": "MIT",
+  "engines": {
+    "npm": "^7"
+  },
   "scripts": {
     "start": "preact watch",
     "build": "preact build",
