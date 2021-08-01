@@ -3,7 +3,7 @@ import type { FunctionalComponent } from 'preact';
 import classNames from 'classnames';
 
 import type { ColorName, Colors } from '../../constants';
-import { color, colorActive } from './color.css';
+import styles from './color.css';
 
 interface Props {
   color: ColorName;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const classColor = classNames(
-  color,
+  styles.color,
   'box-border',
   'h-0',
   'relative',
@@ -26,7 +26,7 @@ const classColor = classNames(
 
 export const Color: FunctionalComponent<Props> = ({ color, hex, checked }) => (
   <label
-    class={classNames(classColor, { [colorActive]: checked })}
+    class={classNames(classColor, { [styles.colorActive]: checked })}
     style={{ backgroundColor: hex }}
     htmlFor={color}
   >
