@@ -1,0 +1,15 @@
+.editor {
+  @apply w-full;
+}
+
+.select {
+  @apply border;
+  @apply border-solid;
+  @apply border-gray-400;
+}
+
+.toolbar {
+  @apply flex;
+  @apply justify-between;
+  @apply items-center;
+}

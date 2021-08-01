@@ -1,3 +1,18 @@
+.header {
+  @apply flex;
+  @apply flex-col;
+  @apply mb-6;
+  @apply text-center;
+  @apply border-gray-400;
+  @apply border-solid;
+  @apply border-b-2;
+}
+
+.title {
+  @apply text-4xl;
+  @apply tracking-widest;
+}
+
 .title::before,
 .title::after {
   color: #cbd5e0;
@@ -8,4 +23,30 @@
 }
 .title::after {
   content: ' ■';
+}
+
+.subtitle {
+  @apply text-base;
+}
+
+.nav {
+  @apply flex;
+  @apply flex-row;
+  @apply justify-center;
+  @apply mt-4;
+}
+
+.link {
+  @apply py-2;
+  @apply mx-4;
+  @apply hover:text-blue-600;
+  @apply focus:text-blue-600;
+  @apply border-b-4;
+  @apply border-solid;
+  @apply border-white;
+}
+
+.linkActive {
+  @apply text-blue-600;
+  @apply border-blue-600;
 }

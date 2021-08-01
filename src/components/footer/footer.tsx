@@ -1,13 +1,11 @@
 import { h } from 'preact';
 import type { FunctionalComponent } from 'preact';
-import classNames from 'classnames';
 
 import { TextLink } from '../text-link/';
-
-const classFooter = classNames('text-sm', 'text-center');
+import styles from './footer.css';
 
 export const Footer: FunctionalComponent = () => (
-  <footer class={classFooter}>
+  <footer class={styles.footer}>
     &copy; {new Date().getFullYear()} &middot;{' '}
     <TextLink href="https://twitter.com/Herschel_R" blank={true}>
       Emanuel Kluge
