@@ -32,3 +32,15 @@
   grid-template-columns: repeat(5, 18px);
   grid-template-rows: repeat(5, 18px);
 }
+
+.canvas {
+  @apply flex;
+}
+
+.inner {
+  @apply grid;
+  @apply gap-2;
+  @apply grid-flow-row;
+  @apply mx-auto;
+  @apply my-2;
+}

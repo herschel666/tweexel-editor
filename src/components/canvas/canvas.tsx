@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import type { ColorName, Size } from '../../constants';
 import { getHexValueFromColorName } from '../../helpers';
 import { Pixel } from '../pixel/';
-import './canvas.css';
+import styles from './canvas.css';
 
 interface Props {
   pixels: ColorName[];
@@ -13,16 +13,8 @@ interface Props {
   onClick: (i: number) => void;
 }
 
-const classCanvas = classNames('flex');
 const getClassCanvasInner = (size: Size): string =>
-  classNames(
-    'grid',
-    'gap-2',
-    'grid-flow-row',
-    'mx-auto',
-    'my-2',
-    `tweexel-size-${size.join('-')}`
-  );
+  classNames(styles.inner, `tweexel-size-${size.join('-')}`);
 
 export class Canvas extends Component<Props> {
   mousedown = false;
@@ -76,7 +68,7 @@ export class Canvas extends Component<Props> {
     const classCanvasInner = getClassCanvasInner(size);
 
     return (
-      <div class={classCanvas}>
+      <div class={styles.canvas}>
         <div
           class={classCanvasInner}
           onMouseDown={this.handleCanvasMouseDown}

@@ -1,0 +1,7 @@
+.paragraph {
+  @apply mb-4;
+}
+
+.base {
+  @apply text-base;
+}

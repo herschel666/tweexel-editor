@@ -1,7 +1,8 @@
-import { Component, Fragment, h } from 'preact';
+import { Component, h } from 'preact';
 import type { ComponentChild } from 'preact';
 import { route } from 'preact-router';
-import classNames from 'classnames';
+
+import styles from './editor.css';
 
 import {
   STORAGE_KEY_SIZE,
@@ -12,6 +13,7 @@ import {
 } from '../../constants';
 import type { Size } from '../../constants';
 import type { ColorName } from '../../constants';
+import { Ruler } from '../ruler';
 import { Palette } from '../palette';
 import { Canvas } from '../canvas';
 import { Button } from '../button';
@@ -31,10 +33,6 @@ interface State {
 interface Props {
   size: Size;
 }
-
-const classsRuler = classNames('my-6');
-const classSelect = classNames('border', 'border-solid', 'border-gray-400');
-const classToolbar = classNames('flex', 'justify-between', 'items-center');
 
 const changeSizeWarning = `When changing the size of the canvas, you'll lose your current drawing. Proceed anyways?`;
 
@@ -134,16 +132,16 @@ export class Editor extends Component<Props, State> {
     const [columns] = size;
 
     return (
-      <Fragment>
+      <div class={styles.editor}>
         <Palette currentColor={currentColor} onChange={this.setCurrentColor} />
-        <hr class={classsRuler} />
+        <Ruler />
         <Canvas pixels={pixels} onClick={this.setPixelColor} size={size} />
-        <hr class={classsRuler} />
-        <div class={classToolbar}>
+        <Ruler />
+        <div class={styles.toolbar}>
           <CopyButton columns={columns} pixels={pixels} />
           <Button onClick={this.resetCanvas}>Reset</Button>
           <form onChange={this.setSize} method="post">
-            <select class={classSelect}>
+            <select class={styles.select}>
               <option>Change size…</option>
               {canvasSizes.map(
                 ([x, y], _, __, value = JSON.stringify([x, y])) => (
@@ -159,7 +157,7 @@ export class Editor extends Component<Props, State> {
             </select>
           </form>
         </div>
-      </Fragment>
+      </div>
     );
   }
 }

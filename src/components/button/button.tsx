@@ -2,22 +2,13 @@ import { h } from 'preact';
 import type { FunctionalComponent } from 'preact';
 import classNames from 'classnames';
 
+import styles from './button.css';
+
 interface Props {
   onClick: (evnt: Event) => void;
   classes?: string;
   disabled?: boolean;
 }
-
-const classButton = classNames(
-  'px-3',
-  'py-2',
-  'bg-blue-600',
-  'hover:bg-blue-800',
-  'focus:bg-blue-800',
-  'text-sm',
-  'text-white',
-  'rounded'
-);
 
 export const Button: FunctionalComponent<Props> = ({
   onClick,
@@ -28,7 +19,7 @@ export const Button: FunctionalComponent<Props> = ({
   <button
     onClick={onClick}
     disabled={disabled}
-    class={classNames(classButton, classes)}
+    class={classNames(styles.button, classes)}
   >
     {children}
   </button>

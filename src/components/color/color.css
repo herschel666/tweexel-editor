@@ -1,6 +1,15 @@
 .color {
   width: 8%;
   padding-top: 7.4%;
+  @apply box-border;
+  @apply h-0;
+  @apply relative;
+  @apply overflow-hidden;
+  @apply border;
+  @apply border-solid;
+  @apply border-white;
+  @apply rounded-full;
+  @apply cursor-pointer;
 }
 
 .color:hover {
@@ -11,4 +20,8 @@
 .colorActive {
   box-shadow: 0 -1px 0 1px #718096, 1px 0 0 1px #718096, 0 1px 0 1px #718096,
     -1px 0 0 1px #718096;
+}
+
+.input {
+  @apply opacity-0;
 }
