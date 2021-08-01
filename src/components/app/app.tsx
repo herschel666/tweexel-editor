@@ -1,10 +1,11 @@
 import { h, Component } from 'preact';
 import type { JSX } from 'preact';
 import { Router } from 'preact-router';
-import AsyncRoute from 'preact-async-route';
 import type { RouterOnChangeArgs } from 'preact-router';
 import classNames from 'classnames';
 
+import { EditorPage } from '../../pages/editor';
+import { AboutPage } from '../../pages/about';
 import { RedirectToEditor } from '../../pages/redirect-to-editor';
 import { NotFoundPage } from '../../pages/not-found';
 import { FeedbackProvider } from '../feedback/';
@@ -62,20 +63,8 @@ export class App extends Component {
           <div class={classContent}>
             <Router onChange={this.handleRouteChange}>
               <RedirectToEditor path="/" />
-              <AsyncRoute
-                path="/size/:size/"
-                getComponent={() =>
-                  import('../../pages/editor').then(
-                    ({ EditorPage }) => EditorPage
-                  )
-                }
-              />
-              <AsyncRoute
-                path="/about/"
-                getComponent={() =>
-                  import('../../pages/about').then(({ AboutPage }) => AboutPage)
-                }
-              />
+              <EditorPage path="/size/:size/" />
+              <AboutPage path="/about/" />
               <NotFoundPage default={true} />
             </Router>
           </div>
