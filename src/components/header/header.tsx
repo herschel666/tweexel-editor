@@ -3,7 +3,7 @@ import type { FunctionalComponent } from 'preact';
 import { Link } from 'preact-router/match';
 import classNames from 'classnames';
 
-import { title } from './header.css';
+import styles from './header.css';
 
 const classHeader = classNames(
   'flex',
@@ -14,7 +14,7 @@ const classHeader = classNames(
   'border-solid',
   'border-b-2'
 );
-const classTitle = classNames('text-4xl', 'tracking-widest', title);
+const classTitle = classNames('text-4xl', 'tracking-widest', styles.title);
 const classNav = classNames('flex', 'flex-row', 'justify-center', 'mt-4');
 const classLink = classNames(
   'py-2',
