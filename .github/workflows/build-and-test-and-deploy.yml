@@ -24,7 +24,9 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
+            ${{ runner.os }}-node-${{ env.cache-name }}-
             ${{ runner.os }}-node-
+            ${{ runner.os }}-
 
       - name: Cache Build artifacts
         uses: actions/cache@v2
@@ -33,6 +35,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/*') }}
           restore-keys: |
             ${{ runner.os }}-node-
+            ${{ runner.os }}-
 
       - name: Test & build the application
         run: |
@@ -46,7 +49,7 @@ jobs:
           production-branch: KillYourMaster
           github-token: ${{ secrets.GITHUB_TOKEN }}
           netlify-config-path: './netlify.toml'
-          deploy-message: 'Deploy from herschel666/tweexl-editor'
+          deploy-message: 'Deploy from herschel666/tweexel-editor'
           enable-pull-request-comment: false
           enable-commit-comment: false
         env:
