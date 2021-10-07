@@ -7,7 +7,7 @@
   "author": "Emanuel Kluge <kraemerseele@gmx.de>",
   "license": "MIT",
   "engines": {
-    "npm": "^7"
+    "npm": "^8.0.0"
   },
   "scripts": {
     "start": "preact watch",
