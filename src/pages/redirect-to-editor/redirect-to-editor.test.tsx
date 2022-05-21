@@ -20,7 +20,7 @@ describe('redirecting to the default size', () => {
   it('redirects to the default size', () => {
     render(<RedirectToEditor />);
 
-    expect(route).toHaveBeenCalledWith('/size/16-8/');
+    expect(route).toHaveBeenCalledWith('/size/16-8/', true);
   });
 });
 
@@ -34,6 +34,6 @@ describe('redirecting to the stored size', () => {
   it('redirects to the default size', () => {
     render(<RedirectToEditor />);
 
-    expect(route).toHaveBeenCalledWith('/size/8-16/');
+    expect(route).toHaveBeenCalledWith('/size/8-16/', true);
   });
 });
