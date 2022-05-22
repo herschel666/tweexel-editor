@@ -65,7 +65,7 @@
     "preact-cli": "3.3.5",
     "prettier": "2.6.2",
     "serve": "13.0.2",
-    "ts-jest": "27.0.4",
+    "ts-jest": "27.1.5",
     "ts-loader": "8.4.0",
     "typescript": "3.9.10"
   }
