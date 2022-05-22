@@ -48,7 +48,7 @@
     "tailwindcss": "2.2.19"
   },
   "devDependencies": {
-    "@testing-library/preact": "1.0.2",
+    "@testing-library/preact": "3.0.1",
     "@types/jest": "26.0.24",
     "@types/webpack-env": "1.17.0",
     "@typescript-eslint/eslint-plugin": "5.25.0",
