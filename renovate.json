@@ -5,6 +5,10 @@
       "depTypeList": ["devDependencies"],
       "updateTypes": ["minor", "patch"],
       "automerge": true
+    },
+    {
+      "groupName": "Jest",
+      "packageNames": ["jest", "@types/jest", "ts-jest"]
     }
   ]
 }
