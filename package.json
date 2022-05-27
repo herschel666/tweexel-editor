@@ -6,12 +6,9 @@
   "keywords": [],
   "author": "Emanuel Kluge <kraemerseele@gmx.de>",
   "license": "MIT",
-  "engines": {
-    "npm": "^7"
-  },
   "scripts": {
-    "start": "preact watch",
-    "build": "preact build",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider preact watch",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider preact build",
     "postbuild": "cp build/404/index.html build/404.html",
     "fmt": "prettier --config ./.prettierrc --ignore-path ./.prettierignore \"**/**.{js,jsx,ts,tsx,css,html,json,md}\"",
     "fmt:write": "npm run fmt -- --write",
