@@ -5,7 +5,6 @@ import { colors } from '../../constants';
 import type { ColorName } from '../../constants';
 import { preventDefault } from '../../helpers';
 import { Color } from '../color';
-import styles from './palette.css';
 
 interface Props {
   currentColor: ColorName;
@@ -17,9 +16,9 @@ export const Palette: FunctionalComponent<Props> = ({
   onChange,
 }) => (
   <form onChange={onChange} method="post" onSubmit={preventDefault}>
-    <fieldset class={styles.inner}>
-      <legend class={styles.caption}>Color Palette</legend>
-      <div class={styles.colors}>
+    <fieldset class="p-0 m-0 border-0">
+      <legend class="block mb-2 text-base">Color Palette</legend>
+      <div class="flex justify-between items-center px-0 py-1">
         {Object.entries(colors).map(([color, hex]) => (
           <Color
             color={color as ColorName}
