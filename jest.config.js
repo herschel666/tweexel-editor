@@ -4,7 +4,9 @@ module.exports = {
   },
   verbose: true,
   setupFiles: ['<rootDir>/src/tests/__mocks__/browserMocks.js'],
-  testURL: 'http://localhost:8080',
+  testEnvironmentOptions: {
+    url: 'http://localhost:8080',
+  },
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
   moduleDirectories: ['node_modules'],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)(spec|test).[jt]s?(x)'],
