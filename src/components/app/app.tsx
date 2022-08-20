@@ -10,7 +10,6 @@ import { NotFoundPage } from '../../pages/not-found';
 import { FeedbackProvider } from '../feedback/';
 import { Header } from '../header';
 import { Footer } from '../footer';
-import styles from './app.css';
 
 const TRACKING_PIXEL = 'https://analytics.e5l.de/cctv.gif';
 const TRACKING_ID =
@@ -38,9 +37,9 @@ export class App extends Component {
   render(): JSX.Element {
     return (
       <FeedbackProvider>
-        <div class={styles.main}>
+        <div class="flex flex-col box-border w-full max-w-md min-h-screen px-3 py-6 mx-auto my-0 font-serif text-lg leading-normal text-gray-700 bg-white shadow">
           <Header />
-          <div class={styles.content}>
+          <div class="flex flex-grow mx-0">
             <Router onChange={this.handleRouteChange}>
               <RedirectToEditor path="/" />
               <EditorPage path="/size/:size/" />

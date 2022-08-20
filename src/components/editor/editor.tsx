@@ -2,8 +2,6 @@ import { Component, h } from 'preact';
 import type { ComponentChild } from 'preact';
 import { route } from 'preact-router';
 
-import styles from './editor.css';
-
 import {
   STORAGE_KEY_SIZE,
   STORAGE_KEY_COLOR,
@@ -132,16 +130,16 @@ export class Editor extends Component<Props, State> {
     const [columns] = size;
 
     return (
-      <div class={styles.editor}>
+      <div class="w-full">
         <Palette currentColor={currentColor} onChange={this.setCurrentColor} />
         <Ruler />
         <Canvas pixels={pixels} onClick={this.setPixelColor} size={size} />
         <Ruler />
-        <div class={styles.toolbar}>
+        <div class="flex justify-between items-center">
           <CopyButton columns={columns} pixels={pixels} />
           <Button onClick={this.resetCanvas}>Reset</Button>
           <form onChange={this.setSize} method="post">
-            <select class={styles.select}>
+            <select class="border border-solid border-gray-400">
               <option>Change size…</option>
               {canvasSizes.map(
                 ([x, y], _, __, value = JSON.stringify([x, y])) => (

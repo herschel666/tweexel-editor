@@ -2,8 +2,6 @@ import { h } from 'preact';
 import type { FunctionalComponent } from 'preact';
 import { Link } from 'preact-router/match';
 
-import styles from './text-link.css';
-
 interface Props {
   href: string;
   blank?: boolean;
@@ -21,7 +19,12 @@ export const TextLink: FunctionalComponent<Props> = ({
   const Comp = internal ? Link : 'a';
 
   return (
-    <Comp class={styles.link} href={href} target={target} rel={rel}>
+    <Comp
+      class="text-blue-600 hover:text-blue-800 focus:text-blue-800 underline hover:no-underline focus:no-underline"
+      href={href}
+      target={target}
+      rel={rel}
+    >
       {children}
     </Comp>
   );

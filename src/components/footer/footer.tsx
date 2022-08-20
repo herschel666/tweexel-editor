@@ -2,10 +2,9 @@ import { h } from 'preact';
 import type { FunctionalComponent } from 'preact';
 
 import { TextLink } from '../text-link/';
-import styles from './footer.css';
 
 export const Footer: FunctionalComponent = () => (
-  <footer class={styles.footer}>
+  <footer class="text-sm text-center">
     &copy; {new Date().getFullYear()} &middot;{' '}
     <TextLink href="https://twitter.com/Herschel_R" blank={true}>
       Emanuel Kluge

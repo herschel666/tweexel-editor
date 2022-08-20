@@ -13,7 +13,19 @@ interface Props {
 
 export const Color: FunctionalComponent<Props> = ({ color, hex, checked }) => (
   <label
-    class={classNames(styles.color, { [styles.colorActive]: checked })}
+    class={classNames(
+      styles.color,
+      'box-border',
+      'h-0',
+      'relative',
+      'overflow-hidden',
+      'border',
+      'border-solid',
+      'border-white',
+      'rounded-full',
+      'cursor-pointer',
+      { [styles.colorActive]: checked }
+    )}
     style={{ backgroundColor: hex }}
     htmlFor={color}
   >
@@ -23,7 +35,7 @@ export const Color: FunctionalComponent<Props> = ({ color, hex, checked }) => (
       id={color}
       value={color}
       checked={checked}
-      class={styles.input}
+      class="opacity-0"
     />
   </label>
 );
