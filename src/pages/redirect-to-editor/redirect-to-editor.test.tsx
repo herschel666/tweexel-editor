@@ -1,26 +1,30 @@
+import { describe, beforeAll, afterAll, it, expect, vi } from 'vitest';
 import { h } from 'preact';
-import { route } from 'preact-router';
+import * as preactRouter from 'preact-router';
 import { render } from '@testing-library/preact';
 
 import { STORAGE_KEY_SIZE } from '../../constants';
 import { RedirectToEditor } from '.';
 
-jest.mock('preact-router', () => {
-  const pkg = jest.requireActual('preact-router');
-  const route = jest.fn();
+vi.mock('preact-router', () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const pkg = require('preact-router');
+  const route = vi.fn();
   return {
     ...pkg,
     route,
   };
 });
 
-describe('redirecting to the default size', () => {
-  afterAll(() => jest.clearAllMocks());
+afterAll(() => {
+  vi.clearAllMocks();
+});
 
+describe('redirecting to the default size', () => {
   it('redirects to the default size', () => {
     render(<RedirectToEditor />);
 
-    expect(route).toHaveBeenCalledWith('/size/16-8/', true);
+    expect(preactRouter.route).toHaveBeenCalledWith('/size/16-8/', true);
   });
 });
 
@@ -29,11 +33,9 @@ describe('redirecting to the stored size', () => {
     sessionStorage[STORAGE_KEY_SIZE] = '[8, 16]';
   });
 
-  afterAll(() => jest.clearAllMocks());
-
   it('redirects to the default size', () => {
     render(<RedirectToEditor />);
 
-    expect(route).toHaveBeenCalledWith('/size/8-16/', true);
+    expect(preactRouter.route).toHaveBeenCalledWith('/size/8-16/', true);
   });
 });

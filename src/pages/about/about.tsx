@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import type { FunctionalComponent } from 'preact';
 
 import { Ruler } from '../../components/ruler';
