@@ -7,9 +7,9 @@
   "author": "Emanuel Kluge <kraemerseele@gmx.de>",
   "license": "MIT",
   "scripts": {
-    "start": "vite",
-    "build": "tsc && vite build --outDir build",
-    "preview": "vite preview",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider preact watch",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider preact build",
+    "postbuild": "cp build/404/index.html build/404.html",
     "fmt": "prettier --config ./.prettierrc --ignore-path ./.prettierignore \"**/**.{js,jsx,ts,tsx,css,html,json,md}\"",
     "fmt:write": "npm run fmt -- --write",
     "fmt:check": "npm run fmt -- --check",
@@ -17,10 +17,11 @@
     "lint:fix": "npm run lint -- --fix",
     "tsc": "tsc --noEmit",
     "lint": "npm-run-all lint:check tsc fmt:check",
-    "test": "vitest --config vite.config.ts",
+    "test": "jest",
     "preserve": "npm run build",
     "serve": "serve -s -C -n build",
-    "deploy": "CI=true npm-run-all lint test build"
+    "precommit": "lint-staged",
+    "deploy": "npm-run-all lint test build"
   },
   "eslintIgnore": [
     "build/*"
@@ -29,29 +30,29 @@
     "classnames": "2.3.1",
     "clipboard-polyfill": "2.8.6",
     "preact": "10.10.6",
+    "preact-render-to-string": "5.2.2",
     "preact-router": "4.1.0",
     "tailwindcss": "3.1.8"
   },
   "devDependencies": {
-    "@preact/preset-vite": "2.3.0",
     "@testing-library/preact": "3.2.2",
+    "@types/jest": "28.1.7",
     "@types/webpack-env": "1.18.0",
     "@typescript-eslint/eslint-plugin": "5.33.1",
     "@typescript-eslint/parser": "5.33.1",
-    "autoprefixer": "10.4.8",
     "eslint": "8.22.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.30.1",
     "identity-obj-proxy": "3.0.0",
+    "jest": "28.1.3",
+    "jest-environment-jsdom": "28.1.3",
     "npm-run-all": "4.1.5",
-    "postcss": "8.4.16",
+    "preact-cli": "3.4.1",
     "prettier": "2.7.1",
     "serve": "14.0.1",
     "ts-jest": "28.0.8",
     "ts-loader": "8.4.0",
-    "typescript": "4.7.4",
-    "vite": "3.0.9",
-    "vitest": "0.22.1"
+    "typescript": "4.7.4"
   }
 }

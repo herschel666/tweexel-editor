@@ -1,34 +1,34 @@
-.tweexel-size-16-8 {
+:global(.tweexel-size-16-8) {
   grid-template-columns: repeat(16, 18px);
   grid-template-rows: repeat(8, 18px);
 }
 
-.tweexel-size-8-16 {
+:global(.tweexel-size-8-16) {
   grid-template-columns: repeat(8, 18px);
   grid-template-rows: repeat(16, 18px);
 }
 
-.tweexel-size-12-9 {
+:global(.tweexel-size-12-9) {
   grid-template-columns: repeat(12, 18px);
   grid-template-rows: repeat(9, 18px);
 }
 
-.tweexel-size-9-12 {
+:global(.tweexel-size-9-12) {
   grid-template-columns: repeat(9, 18px);
   grid-template-rows: repeat(12, 18px);
 }
 
-.tweexel-size-10-10 {
+:global(.tweexel-size-10-10) {
   grid-template-columns: repeat(10, 18px);
   grid-template-rows: repeat(10, 18px);
 }
 
-.tweexel-size-8-8 {
+:global(.tweexel-size-8-8) {
   grid-template-columns: repeat(8, 18px);
   grid-template-rows: repeat(8, 18px);
 }
 
-.tweexel-size-5-5 {
+:global(.tweexel-size-5-5) {
   grid-template-columns: repeat(5, 18px);
   grid-template-rows: repeat(5, 18px);
 }

@@ -1,4 +1,4 @@
-import { Component, createContext } from 'preact';
+import { Component, createContext, h } from 'preact';
 import type { FunctionalComponent, VNode, ComponentChild } from 'preact';
 
 import { Feedback, FeedbackType } from './feedback';

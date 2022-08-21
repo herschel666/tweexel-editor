@@ -1,8 +1,9 @@
+import { h } from 'preact';
 import type { FunctionalComponent } from 'preact';
 import { Link } from 'preact-router/match';
 import classNames from 'classnames';
 
-import styles from './header.module.css';
+import styles from './header.css';
 
 export const Header: FunctionalComponent = () => {
   const linkClass =
