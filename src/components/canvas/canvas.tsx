@@ -1,4 +1,4 @@
-import { Component, h } from 'preact';
+import { Component } from 'preact';
 import type { ComponentChild } from 'preact';
 import classNames from 'classnames';
 

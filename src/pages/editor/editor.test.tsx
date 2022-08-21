@@ -1,7 +1,10 @@
+import { it, expect, afterEach } from 'vitest';
 import { h } from 'preact';
-import { render } from '@testing-library/preact';
+import { render, cleanup } from '@testing-library/preact';
 
 import { EditorPage } from '.';
+
+afterEach(cleanup);
 
 it('renders a 16×8 canvas by default', async () => {
   const { findAllByTestId } = render(<EditorPage />);

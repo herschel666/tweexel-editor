@@ -2,19 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <% if (htmlWebpackPlugin.options.CLI_DATA.preRenderData.url === '/') { %>
-    <noscript>
-      <meta http-equiv="refresh" content="0; url=/size/16-8/" />
-    </noscript>
-    <% } %>
-    <title><% preact.title %></title>
+    <title>Editor :: tweexel</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-    <% preact.headEnd %>
   </head>
   <body>
-    <% preact.bodyEnd %>
+    <div id="app"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
