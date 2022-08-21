@@ -1,4 +1,4 @@
-import { h, Component } from 'preact';
+import { Component } from 'preact';
 import type { JSX } from 'preact';
 import { Router } from 'preact-router';
 import type { RouterOnChangeArgs } from 'preact-router';
@@ -22,7 +22,7 @@ export class App extends Component {
     const referrer = encodeURIComponent(document.referrer);
     const src = `${TRACKING_PIXEL}?id=${TRACKING_ID}&resource=${resource}&referrer=${referrer}`;
     if (hostname === 'localhost') {
-      console.log('TRACKING "%s" refferred by "%s"', resource, referrer);
+      console.log('TRACKING "%s" referred by "%s"', resource, referrer);
     } else {
       Object.assign(new Image(), { src });
     }
