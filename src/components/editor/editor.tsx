@@ -1,4 +1,4 @@
-import { Component, h } from 'preact';
+import { Component } from 'preact';
 import type { ComponentChild } from 'preact';
 import { route } from 'preact-router';
 
@@ -16,12 +16,6 @@ import { Palette } from '../palette';
 import { Canvas } from '../canvas';
 import { Button } from '../button';
 import { CopyButton } from '../copy-button';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-if ((module as any).hot) {
-  // tslint:disable-next-line:no-var-requires
-  require('preact/debug');
-}
 
 interface State {
   currentColor: ColorName;
@@ -49,7 +43,7 @@ export class Editor extends Component<Props, State> {
     this.setPixelColor = this.setPixelColor.bind(this);
     this.resetCanvas = this.resetCanvas.bind(this);
     this.state = {
-      currentColor: 'red' as ColorName,
+      currentColor: 'red' as const,
       pixels: getInitialCanvas(...props.size),
     };
   }

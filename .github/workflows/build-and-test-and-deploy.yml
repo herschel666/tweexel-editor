@@ -38,8 +38,6 @@ jobs:
             ${{ runner.os }}-
 
       - name: Test & build the application
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
         run: |
           npm ci
           npm run deploy

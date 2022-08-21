@@ -1,9 +1,8 @@
-import { h } from 'preact';
 import type { FunctionalComponent } from 'preact';
 import classNames from 'classnames';
 
 import type { ColorName, Colors } from '../../constants';
-import styles from './color.css';
+import styles from './color.module.css';
 
 interface Props {
   color: ColorName;
