@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import type { FunctionComponent } from 'preact';
 
 import { getCurrentSize } from '../../helpers';

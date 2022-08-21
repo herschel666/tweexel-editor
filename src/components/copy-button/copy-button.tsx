@@ -1,4 +1,4 @@
-import { Component } from 'preact';
+import { Component, h } from 'preact';
 import type { FunctionalComponent } from 'preact';
 import * as ClipBoard from 'clipboard-polyfill';
 

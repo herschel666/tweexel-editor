@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import type { FunctionalComponent } from 'preact';
 
 export const Headline: FunctionalComponent = ({ children }) => (
