@@ -12,7 +12,6 @@ export default defineConfig({
     // @see https://github.com/vitejs/vite/issues/8644
     logOverride: { 'this-is-undefined-in-esm': 'silent' },
   },
-  assetsInclude: '**/*.html',
   test: {
     globals: false,
     environment: 'jsdom',
