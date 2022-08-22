@@ -2,7 +2,6 @@
   "name": "tweexel-editor",
   "description": "Editor for emoji-based pixel art on twitter.",
   "version": "0.1.0-alpha.01",
-  "main": "index.html",
   "keywords": [],
   "author": "Emanuel Kluge <kraemerseele@gmx.de>",
   "license": "MIT",
