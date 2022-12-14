@@ -32,7 +32,7 @@
     "tailwindcss": "3.2.1"
   },
   "devDependencies": {
-    "@preact/preset-vite": "2.4.0",
+    "@preact/preset-vite": "2.5.0",
     "@testing-library/preact": "3.2.2",
     "@types/webpack-env": "1.18.0",
     "@typescript-eslint/eslint-plugin": "5.46.1",
