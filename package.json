@@ -26,7 +26,7 @@
   ],
   "dependencies": {
     "classnames": "2.3.2",
-    "clipboard-polyfill": "3.0.3",
+    "clipboard-polyfill": "4.0.0",
     "preact": "10.15.1",
     "preact-router": "4.1.1",
     "tailwindcss": "3.2.1"
