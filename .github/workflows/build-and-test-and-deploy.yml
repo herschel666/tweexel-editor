@@ -43,7 +43,7 @@ jobs:
           npm run deploy
 
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.2
+        uses: nwtgck/actions-netlify@v2.1
         with:
           publish-dir: './build'
           production-branch: KillYourMaster
